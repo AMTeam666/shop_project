@@ -460,7 +460,8 @@ Route::prefix('discount')->group(function () {
 });
 
 Route::namespace('Auth')->group(function(){
-    Route::get('login-register', [LoginRegisterController::class,'loginRegisterForm'])->name('auth.customers.login-register-form');
+    Route::get('login-register-form', [LoginRegisterController::class,'loginRegisterForm'])->name('auth.customers.login-register-form');
+    Route::post('/login-register', [LoginRegisterController::class,'loginRegister'])->name('auth.customers.login-register');
 });
 
 
