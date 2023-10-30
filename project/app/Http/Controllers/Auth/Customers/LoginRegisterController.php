@@ -11,6 +11,10 @@ use App\Models\Otp;
 
 class LoginRegisterController extends Controller
 {
+    public function loginRegisterForm(){
+        return view('customers.auth.login-register');    
+    }
+
     public function loginRegister(LoginRegisterRequest $request)
     {
         $inputs = $request->all();
