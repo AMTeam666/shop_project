@@ -13,6 +13,13 @@
             <section class="login-info">شماره موبایل یا پست الکترونیک خود را وارد کنید</section>
             <section class="login-input-text">
                 <input type="text" name="id" >
+                @error('id')
+                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                    <strong>
+                        {{ $message }}
+                    </strong>
+                </span>
+            @enderror
             </section>
          <section class="login-btn d-grid g-2"><button class="btn btn-danger">ورود به آمازون</button></section>
          <section class="login-terms-and-conditions"><a href="#">شرایط و قوانین</a> را خوانده ام و پذیرفته ام</section>

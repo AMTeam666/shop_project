@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests\Auth\Customers;
 
-use App\Models\Otp;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRegisterRequest extends FormRequest
+class LoginConfirmRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,16 +17,12 @@ class LoginRegisterRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
-        
-     
-             return [
-                 'id' => 'required|min:11|max:64|regex:/^[a-zA-Z0-9_.@\+]*$/',
-            ];
-
-       
+        return [
+            'otp' => 'required|min:6|max:6',
+       ];
     }
 }

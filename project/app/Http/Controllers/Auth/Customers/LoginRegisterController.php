@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers\Auth\Customers;
 
+use Carbon\Carbon;
+use App\Models\Otp;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Services\Massage\MassageService;
+use App\Http\Services\Massage\Email\EmailService;
+use App\Http\Requests\Auth\Customers\LoginConfirmRequest;
 use App\Http\Requests\Auth\Customers\LoginRegisterRequest;
-use App\Models\Otp;
 
 class LoginRegisterController extends Controller
 {
@@ -69,5 +74,123 @@ class LoginRegisterController extends Controller
 
         Otp::create($otpInputs);
 
+        //send sms or email
+
+        if($type === 0){
+            //send sms
+            
+        }else if($type === 1){
+            $emailService = new EmailService();
+            $detials = [
+                'title' =>  'ایمیل فعال سازی',
+                'body' =>  "کد فعال سازی شما : $otpCode",
+            ];
+            $emailService->setDetails($detials);
+            $emailService->setFrom('noreply@example.com', 'example');
+            $emailService->setSubject('کد احراز هویت');
+            $emailService->setTo($inputs['id']);
+
+            $messagesService = new MassageService($emailService);
+        }
+
+        $messagesService->send();
+
+        return redirect()->route('auth.customers.login-confirm-form', $token);
+
+
+    }
+
+    public function loginConfirmForm($token){
+        $otp = Otp::where('token', $token)->first();
+        if(empty($otp)){
+            return redirect()->route('auth.customers.login-register-form')->withErrors(['id' => 'آدرس وارد شده نامعتبر میباشد']);
+        }
+        return view('customers.auth.login-confirm', compact('token', 'otp'));
+    }
+
+    public function loginConfirm($token, LoginConfirmRequest $request){
+
+        $inputs = $request->all();
+
+        $otp = Otp::where('token', $token)->where('used', 0)->where('created_at', '>=', Carbon::now()->subMinute(2)->toDateTimeString())->first();
+        if(empty($otp))
+        {
+            return redirect()->route('auth.customers.login-register-form', $token)->withErrors(['id' => 'آدرس وارد شده نامعتبر میباشد']);
+
+        }
+
+        //if otp not match
+        if($otp->otp_code !==  $inputs['otp'])
+        {
+            return redirect()->route('auth.customers.login-confirm-form', $token)->withErrors(['otp' => 'کد شده نامعتبر میباشد']);
+
+        }
+
+        //if everythings is ok
+        $otp->update(['used' => 1]);
+        $user = $otp->user()->first();
+
+        if($otp->type == 0 && empty($user->mobile_verified_at))
+        {
+            $user->update(['mobile_verified_at' => Carbon::now()]);
+
+        }elseif($otp->type == 1 && empty($user->email_verified_at))
+        {
+            $user->update(['email_verified_at' => Carbon::now()]);
+
+        }
+        Auth::login($user);
+        return redirect()->route('customers.home');
+    }
+
+    public function loginResendOtp($token)
+    {
+        $otp = Otp::where('token', $token)->where('created_at', '<=', Carbon::now()->subMinutes(5)->toDateTimeString())->first();
+
+        if(empty($otp))
+        {
+            return redirect()->route('auth.customers.login-register-form', $token)->withErrors(['id' => 'ادرس وارد شده نامعتبر است']);
+        }
+ 
+ 
+          //create otp code
+          $user = $otp->user()->first();
+          $otpCode = rand(111111, 999999);
+          $token = Str::random(60);
+          $otpInputs = [
+              'token' => $token,
+              'user_id' => $user->id,
+              'otp_code' => $otpCode,
+              'login_id' => $otp->login_id,
+              'type' => $otp->type,
+          ];
+ 
+          Otp::create($otpInputs);
+ 
+          //send sms or email
+ 
+          if($otp->type == 0){
+              //send sms
+              
+          }
+ 
+          elseif($otp->type === 1){
+              $emailService = new EmailService();
+              $details = [
+                  'title' => 'ایمیل فعال سازی',
+                  'body' => "کد فعال سازی شما : $otpCode"
+              ];
+              $emailService->setDetails($details);
+              $emailService->setFrom('noreply@example.com', 'example');
+              $emailService->setSubject('کد احراز هویت');
+              $emailService->setTo($otp->login_id);
+ 
+              $messagesService = new MassageService($emailService);
+ 
+          }
+ 
+          $messagesService->send();
+ 
+          return redirect()->route('auth.customers.login-confirm-form', $token);
     }
 }

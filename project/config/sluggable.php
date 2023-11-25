@@ -113,16 +113,16 @@ return [
             '/ƒ/' => 'f'
         );
 
-        $quotedReplacement = preg_quote($separator, '/');
-        $merge = array(
-            '/[^\s\p{Zs}\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]/mu' => ' ',
-            '/[\s\p{Zs}]+/mu' => $separator,
-            sprintf('/^[%s]+|[%s]+$/', $quotedReplacement, $quotedReplacement) => '',
-        );
-        $map = $_transliteration + $merge;
-        unset($_transliteration);
-        return preg_replace(array_keys($map), array_values($map), $string);
-    },
+    //     $quotedReplacement = preg_quote($separator, '/');
+    //     $merge = array(
+    //         '/[^\s\p{Zs}\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]/mu' => ' ',
+    //         '/[\s\p{Zs}]+/mu' => $separator,
+    //         sprintf('/^[%s]+|[%s]+$/', $quotedReplacement, $quotedReplacement) => '',
+    //     );
+    //     $map = $_transliteration + $merge;
+    //     unset($_transliteration);
+    //     return preg_replace(array_keys($map), array_values($map), $string);
+    // },
 
     /**
      * Separator to use when generating slugs.  Defaults to a hyphen.
