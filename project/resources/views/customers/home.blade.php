@@ -1,7 +1,6 @@
 @extends('customers.layouts.master-one-col')
 
 @section('content')
-    <a href="{{ route('auth.customers.login-register-form') }}">login</a>
   <!-- start slideshow -->
   <section class="container-xxl my-4">
     <section class="row">

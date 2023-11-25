@@ -461,10 +461,11 @@ Route::prefix('discount')->group(function () {
 
 Route::namespace('Auth')->group(function(){
     Route::get('login-register-form', [LoginRegisterController::class,'loginRegisterForm'])->name('auth.customers.login-register-form');
-    Route::post('/login-register', [LoginRegisterController::class,'loginRegister'])->name('auth.customers.login-register');
+    Route::middleware('throttle:customers-login-register-limiter')->post('/login-register', [LoginRegisterController::class,'loginRegister'])->name('auth.customers.login-register');
     Route::get('login-confirm/{token}', [LoginRegisterController::class,'loginConfirmForm'])->name('auth.customers.login-confirm-form');
-    Route::post('/login-confirm/{token}', [LoginRegisterController::class,'loginConfirm'])->name('auth.customers.login-confirm');
-    Route::get('/login-resend-otp/{token}', [LoginRegisterController::class,'loginResendOtp'])->name('auth.customers.login-resend-otp');
+    Route::middleware('throttle:customers-login-confirm-limiter')->post('/login-confirm/{token}', [LoginRegisterController::class,'loginConfirm'])->name('auth.customers.login-confirm');
+    Route::middleware('throttle:customers-resend-otp-limiter')->get('/login-resend-otp/{token}', [LoginRegisterController::class,'loginResendOtp'])->name('auth.customers.login-resend-otp');
+    Route::get('/logout', [LoginRegisterController::class,'logout'])->name('customers.logout');
 });
 
 
