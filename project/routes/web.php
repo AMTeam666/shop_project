@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\Notify\EmailController;
 use App\Http\Controllers\Admin\Ticket\TicketController;
 use App\Http\Controllers\Admin\User\CustomerController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\Content\BannerController;
 use App\Http\Controllers\Admin\Market\CommentController;
 use App\Http\Controllers\Admin\Market\GalleryController;
 use App\Http\Controllers\Admin\Market\PaymentController;
@@ -37,6 +38,7 @@ use App\Http\Controllers\Auth\Customers\LoginRegisterComtroller;
 use App\Http\Controllers\Auth\Customers\LoginRegisterController;
 use App\Http\Controllers\Admin\Content\CommentController as ContentCommentController;
 use App\Http\Controllers\Admin\Content\CategoryController as ContentCategoryController;
+use App\Http\Controllers\Customer\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -290,8 +292,17 @@ Route::prefix('discount')->group(function () {
             Route::get('/status/{post}', [PostController::class, 'status'] )
                 ->name('admin.content.post.status');
             Route::get('/commentable/{post}', [PostController::class, 'commentable'])->name('admin.content.post.commentable');
+        });
 
-
+           //banner
+           Route::prefix('banner')->group(function(){
+            Route::get('/', [BannerController::class, 'index'])->name('admin.content.banner.index');
+            Route::get('/create', [BannerController::class, 'create'])->name('admin.content.banner.create');
+            Route::post('/store', [BannerController::class, 'store'])->name('admin.content.banner.store');
+            Route::get('/edit/{banner}', [BannerController::class, 'edit'])->name('admin.content.banner.edit');
+            Route::patch('/update/{banner}', [BannerController::class, 'update'])->name('admin.content.banner.update');
+            Route::delete('/destroy/{banner}', [BannerController::class, 'destroy'])->name('admin.content.banner.destroy');
+            Route::get('/status/{banner}', [BannerController::class, 'status'] )->name('admin.content.banner.status');
         });
 
 
@@ -469,9 +480,7 @@ Route::namespace('Auth')->group(function(){
 });
 
 
-Route::get('/',function(){
-    return view('customers.home');
-})->name('customers.home');
+Route::get('/', [HomeController::class, 'home'])->name('customers.home');
 
 
 Route::middleware([

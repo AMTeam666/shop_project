@@ -1,32 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- 
-    @include('customers.layouts.head-tags')
+    @include('customers.layouts.head-tag')
     @yield('head-tag')
-
 </head>
 <body>
 
-    @include('customers.layouts.header')
+    @include('customer.layouts.header')
 
-    <section>
-        @yield('customers.layouts.slidebar')
+    <section class="container-xxl body-container">
+        @yield('customers.layouts.sidebar')
     </section>
 
     <main id="main-body-one-col" class="main-body">
-
 
     @yield('content')
 
     </main>
 
+
     @include('customers.layouts.footer')
 
-    @include('customers.layouts.script')
+
+
+    @include('customer.layouts.script')
     @yield('script')
-    
 </body>
-
-
 </html>
