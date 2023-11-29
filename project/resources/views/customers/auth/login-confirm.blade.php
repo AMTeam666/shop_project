@@ -46,7 +46,7 @@
                 </section>
                 <section class="login-btn d-grid g-2"><button class="btn btn-danger">تایید</button></section>
 
-                <section id="resend-otp" class="">
+                <section id="resend-otp" class="d-none">
                     <a href="{{ route('auth.customers.login-resend-otp', $token) }}" class="text-decoration-none text-primary">دریافت مجدد کد تایید</a>
                 </section>
                 <section id="timer"></section>

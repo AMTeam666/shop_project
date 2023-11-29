@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('customers.layouts.head-tag')
+    @include('customers.layouts.head-tags')
     @yield('head-tag')
 </head>
 <body>

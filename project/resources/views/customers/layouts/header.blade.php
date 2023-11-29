@@ -9,7 +9,7 @@
                 <section class="d-md-flex justify-content-md-between align-items-md-center py-3">
 
                     <section class="d-flex justify-content-between align-items-center d-md-block">
-                        <a class="text-decoration-none" href="index.html"><img src="assets/images/logo/8.png" alt="logo"></a>
+                        <a class="text-decoration-none" href="index.html"><img src="{{ asset('images/logo/8.png') }}" alt="logo"></a>
                         <button class="btn btn-link text-dark d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                             <i class="fa fa-bars me-1"></i>
                         </button>
@@ -47,7 +47,7 @@
                                 <section><a class="dropdown-item" href="my-orders.html"><i class="fa fa-newspaper"></i>سفارشات</a></section>
                                 <section><a class="dropdown-item" href="my-favorites.html"><i class="fa fa-heart"></i>لیست علاقه مندی</a></section>
                                 <section><hr class="dropdown-divider"></section>
-                                <section><a class="dropdown-item" href="#"><i class="fa fa-sign-out-alt"></i>خروج</a></section>
+                                <section><a class="dropdown-item" href="{{ route('customers.logout') }}"><i class="fa fa-sign-out-alt"></i>خروج</a></section>
 
                             </section>
                             @endauth

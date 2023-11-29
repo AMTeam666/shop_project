@@ -4,17 +4,17 @@ namespace App\Http\Controllers\Admin\Market;
 
 use Illuminate\Http\Request;
 use App\Models\Market\Product;
-use App\Models\Market\ProductColor;
+use App\Models\MArket\Guarantee;
 use App\Http\Controllers\Controller;
 
-class ProductColorController extends Controller
+class GuaranteeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Product $product)
     {
-        return view("admin.market.product.color.index", compact("product"));
+        return view('admin.market.product.guarantee.index', compact('product'));
     }
 
     /**
@@ -22,7 +22,7 @@ class ProductColorController extends Controller
      */
     public function create(Product $product)
     {
-        return view("admin.market.product.color.create", compact("product"));
+        return view('admin.market.product.guarantee.create', compact('product'));
     }
 
     /**
@@ -31,16 +31,15 @@ class ProductColorController extends Controller
     public function store(Request $request, Product $product)
     {
         $validated = $request->validate([
-            'color_name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
-             'color' => 'required|max:120',
-            'price_increase' => 'required|numeric',
-        ]);
-        $inputs = $request->all();
-            $inputs['product_id'] = $product->id;
-            $color = ProductColor::create($inputs);
-        
-        return redirect()->route('admin.market.color.index', $product->id)->with('swal-success', 'رنگ شما با موفقیت ثبت شد');
-         
+            'name'              =>  'required',
+            'price_increase'    =>  'required|numeric'
+    ]);
+    $inputs = $request->all();
+    $inputs['product_id'] = $product->id;
+    $guarantee = Guarantee::create($inputs);
+
+    return redirect()->route('admin.market.guarantee.store', $product->id)->with('swal-success', 'گارانتی با موفقیت ثبت شد ');
+  
     }
 
     /**
@@ -70,8 +69,9 @@ class ProductColorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $product, Guarantee $guarantee)
     {
-        //
+        $guarantee->delete();
+        return back();
     }
 }
