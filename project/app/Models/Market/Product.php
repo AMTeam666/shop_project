@@ -2,10 +2,13 @@
 
 namespace App\Models\Market;
 
-use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
+use App\Models\Market\AmazingSale;
+use App\Models\Market\CategoryValue;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
@@ -80,5 +83,20 @@ class Product extends Model
     public function guarantees()
     {
         return $this->hasMany(Guarantee::class);
+    }
+
+    public function amazingSales()
+    {
+        return $this->hasMany(AmazingSale::class);
+    }
+    
+    public function activeAmazingSale()
+    {
+        return $this->amazingSales()->where('created_at', '<', Carbon::now())->where('end_date', '>', Carbon::now())->first();
+    }
+
+    public function activeComments()
+    {
+        return $this->comments()->where('approved', 1)->whereNull('parent_id')->get();
     }
 }

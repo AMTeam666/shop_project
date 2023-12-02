@@ -38,7 +38,7 @@ class GuaranteeController extends Controller
     $inputs['product_id'] = $product->id;
     $guarantee = Guarantee::create($inputs);
 
-    return redirect()->route('admin.market.guarantee.store', $product->id)->with('swal-success', 'گارانتی با موفقیت ثبت شد ');
+    return redirect()->route('admin.market.guarantee.index', $product->id)->with('swal-success', 'گارانتی با موفقیت ثبت شد ');
   
     }
 

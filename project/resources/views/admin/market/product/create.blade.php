@@ -323,7 +323,11 @@
             select_tags.select2({
                 placeholder : 'لطفا تگ های خود را وارد نمایید',
                 tags: true,
-                data: default_data
+                data: default_data,
+                maximumSelectionLength: 4,
+
+
+
             });
             select_tags.children('option').attr('selected', true).trigger('change');
 

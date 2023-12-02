@@ -2,9 +2,11 @@
 
 namespace App\Models\Market;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Market\CategoryAttribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Market\Product;
 
 class CategoryValue extends Model
 {
@@ -13,9 +15,9 @@ class CategoryValue extends Model
 
     protected  $fillable = ['product_id', 'type', 'category_attribute_id', 'value'];
 
-    public function atrribute()
+    public function attribute()
     {
-        return $this->belongsTo(CategoryAttribute::class);
+        return $this->belongsTo(CategoryAttribute::class, 'category_attribute_id');
     }
 
     public function product()

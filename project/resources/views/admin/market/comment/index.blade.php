@@ -51,12 +51,18 @@
                     @foreach($comments as $key => $comment)
                         <tr>
                             <th>{{ $key += 1}}</th>
-                            <td>{{ Str::limit($comment->body, 10) }}</td>
+                            <td>{{ Str::limit($comment->body, 20) }}</td>
                             <td>{{ $comment->parent_id ? Str::limit($comment->parent->body, 10) : '' }}</td>
                             <td>{{ $comment->author_id }}</td>
-                            <td>{{ $comment->user->fullName }}</td>
+                            <td>
+                                @if(empty($comment->first_name) && empty($comment->last_name))
+                                    ناشناس
+                                @else
+                                     {{ $comment->user->fullName }} - {{ $comment->author_id }}
+                                @endif
+                            </td>
                             <td>{{ $comment->commentable_id }}</td>
-                            <td>{{ $comment->commentable->title }}</td>
+                            <td>{{ $comment->commentable->name }}</td>
                             <td>{{ $comment->approved == 1 ? 'تایید شده' : 'تایید نشده' }}</td>
                             <td>
                                 <label>

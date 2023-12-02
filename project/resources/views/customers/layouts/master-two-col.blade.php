@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('customers.layouts.head-tag')
+    @include('customers.layouts.head-tags')
     @yield('head-tag')
 </head>
 <body>
 
-    @include('customer.layouts.header')
+    @include('customers.layouts.header')
 
     <section class="container-xxl body-container">
         @yield('customers.layouts.sidebar')
@@ -23,7 +23,7 @@
 
 
 
-    @include('customer.layouts.script')
+    @include('customers.layouts.script')
     @yield('script')
 </body>
 </html>

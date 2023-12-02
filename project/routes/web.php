@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\Market\CommentController;
 use App\Http\Controllers\Admin\Market\GalleryController;
 use App\Http\Controllers\Admin\Market\PaymentController;
 use App\Http\Controllers\Admin\Market\ProductController;
+use App\Http\Controllers\Customer\Market\ProductController as CustomerProductController;
 use App\Http\Controllers\Admin\User\AdminUserController;
 use App\Http\Controllers\Admin\Market\CategoryController;
 use App\Http\Controllers\Admin\Market\DeliveryController;
@@ -132,7 +133,7 @@ Route::prefix('discount')->group(function () {
     Route::get('/amazing-sale/create', [DiscountController::class, 'amazingSaleCreate'])->name('admin.market.discount.amazingSale.create');
     Route::post('/amazing-sale/store', [DiscountController::class, 'amazingSaleStore'])->name('admin.market.discount.amazingSale.store');
     Route::get('/amazing-sale/edit/{amazingSale}', [DiscountController::class, 'amazingSaleEdit'])->name('admin.market.discount.amazingSale.edit');
-    Route::put('/amazing-sale/update/{amazingSale}', [DiscountController::class, 'amazingSaleUpdate'])->name('admin.market.discount.amazingSale.update');
+    Route::patch('/amazing-sale/update/{amazingSale}', [DiscountController::class, 'amazingSaleUpdate'])->name('admin.market.discount.amazingSale.update');
     Route::delete('/amazing-sale/destroy/{amazingSale}', [DiscountController::class, 'amazingSaleDestroy'])->name('admin.market.discount.amazingSale.destroy');
 
 
@@ -184,8 +185,14 @@ Route::prefix('discount')->group(function () {
             Route::get('/gallery/{product}/', [GalleryController::class, 'index'])->name('admin.market.gallery.index');
             Route::get('/gallery/{product}/create', [GalleryController::class, 'create'])->name('admin.market.gallery.create');
             Route::post('/gallery/store/{product}', [GalleryController::class, 'store'])->name('admin.market.gallery.store');
-            Route::delete('/gallery/destroy/{product}/{gallery}', [GalleryController::class,
-                'destroy'])->name('admin.market.gallery.destroy');
+            Route::delete('/gallery/destroy/{product}/{gallery}', [GalleryController::class,'destroy'])->name('admin.market.gallery.destroy');
+
+            //guarantee
+            Route::get('/guarantee/{product}', [GuaranteeController::class, 'index'])->name('admin.market.guarantee.index');
+            Route::get('/guarantee/create/{product}', [GuaranteeController::class, 'create'])->name('admin.market.guarantee.create');
+            Route::post('/guarantee/store/{product}', [GuaranteeController::class, 'store'])->name('admin.market.guarantee.store');
+            Route::delete('/guarantee/destroy/{product}/{guarantee}', [GuaranteeController::class, 'destroy'])->name('admin.market.guarantee.destroy');
+           
         });
 
         //property
@@ -215,14 +222,7 @@ Route::prefix('discount')->group(function () {
             Route::put('/update/{product}', [StoreController::class, 'update'])->name('admin.market.store.update');
             });
 
-        //guarantee
-        Route::prefix('guarantee')->group(function () {
-            Route::get('/guarantee/{product}', [GuaranteeController::class, 'index'])->name('admin.market.guarantee.index');
-            Route::get('/guarantee/create/{product}', [GuaranteeController::class, 'create'])->name('admin.market.guarantee.create');
-            Route::post('/guarantee/store/{product}', [GuaranteeController::class, 'store'])->name('admin.market.guarantee.store');
-            Route::delete('/guarantee/destroy/{product}/{guarantee}', [GuaranteeController::class, 'destroy'])->name('admin.market.guarantee.destroy');
-       });
-       
+     
     });
 
     Route::prefix('content')->namespace('Content')->group(function (){
@@ -490,6 +490,13 @@ Route::namespace('Auth')->group(function(){
 
 
 Route::get('/', [HomeController::class, 'home'])->name('customers.home');
+
+Route::namespace('Market')->group(function(){
+
+    Route::get('/product/{product:slug}', [CustomerProductController::class, 'product'])->name('customer.market.product');
+    Route::post('/add-comment/product/{product:slug}', [CustomerProductController::class, 'addComment'])->name('customer.market.add-comment');
+
+});
 
 
 Route::middleware([

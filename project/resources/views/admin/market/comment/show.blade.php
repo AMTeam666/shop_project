@@ -32,13 +32,17 @@
             <section class="card mb-3">
                 <section class="card-header text-white bg-custom-yellow">
                     <h4>
-                    {{ $comment->user->fullName }} - {{ $comment->author_id }}
+                    @if(empty($comment->first_name) && empty($comment->last_name))
+                      {{ $comment->author_id }}  -  ناشناس   
+                    @else
+                         {{ $comment->user->fullName }} - {{ $comment->author_id }}
+                    @endif
                     </h4>
                 </section>
                 </section>
                 <section class="card-body">
-                    <h5 class="card-title">کد پست : {{ $comment->commentable_id }} مشخصات پست : {{ $comment->commentable->title }}</h5>
-                    <p class="card-text">{{ $comment->body }}</p>
+                    <h5 class="card-title">کد پست : {{ $comment->commentable_id }} مشخصات پست : {{ $comment->commentable->name }}</h5>
+                    <p class="card-text">{!! $comment->body !!}</p>
                 </section>
             </section>
             @if($comment->parent_id == null)
