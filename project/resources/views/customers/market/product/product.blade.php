@@ -115,7 +115,30 @@
                                     <i class="fa fa-store-alt cart-product-selected-store me-1"></i> <span>کالا ناموجود</span>
                                     @endif
                                 </p>
-                                <p><a class="btn btn-light  btn-sm text-decoration-none" href="#"><i class="fa fa-heart text-danger"></i> افزودن به علاقه مندی</a></p>
+                                <p>
+                                    @guest
+                                    <section class="product-add-to-favorite position-relative" style="top: 0">
+                                        <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه از علاقه مندی">
+                                            <i class="fa fa-heart"></i>
+                                        </button>
+                                    </section>
+                                    @endguest
+                                    @auth
+                                        @if ($product->user->contains(auth()->user()->id))
+                                        <section class="product-add-to-favorite position-relative" style="top: 0">
+                                            <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="حذف از علاقه مندی">
+                                                <i class="fa fa-heart text-danger"></i>
+                                            </button>
+                                        </section>
+                                        @else
+                                        <section class="product-add-to-favorite position-relative" style="top: 0">
+                                            <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه به علاقه مندی">
+                                                <i class="fa fa-heart"></i>
+                                            </button>
+                                        </section>
+                                        @endif
+                                    @endauth  
+                                </p>
                                 <section>
                                     <section class="cart-product-number d-inline-block ">
                                         <button class="cart-number cart-number-down" type="button">-</button>
@@ -205,7 +228,29 @@
                                 <section class="lazyload-item-wrapper">
                                     <section class="product">
                                         <section class="product-add-to-cart"><a href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="افزودن به سبد خرید"><i class="fa fa-cart-plus"></i></a></section>
-                                        <section class="product-add-to-favorite"><a href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="افزودن به علاقه مندی"><i class="fa fa-heart"></i></a></section>
+                                       
+                                        @guest
+                                        <section class="product-add-to-favorite">
+                                            <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $relatedProduct) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه از علاقه مندی">
+                                                <i class="fa fa-heart"></i>
+                                            </button>
+                                        </section>
+                                        @endguest
+                                        @auth
+                                            @if ($relatedProduct->user->contains(auth()->user()->id))
+                                            <section class="product-add-to-favorite">
+                                                <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $relatedProduct) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="حذف از علاقه مندی">
+                                                    <i class="fa fa-heart text-danger"></i>
+                                                </button>
+                                            </section>
+                                            @else
+                                            <section class="product-add-to-favorite">
+                                                <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $relatedProduct) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه به علاقه مندی">
+                                                    <i class="fa fa-heart"></i>
+                                                </button>
+                                            </section>
+                                            @endif
+                                        @endauth    
                                         <a class="product-link" href="{{  route('customer.market.product', $relatedProduct) }}">
                                             <section class="product-image">
                                                 <img class="" src="{{ asset($relatedProduct->image['indexArray']['medium']) }}" alt="">
@@ -215,11 +260,9 @@
                                                 <section class="product-price">{{ priceFormat($relatedProduct->price) }} تومان</section>
                                             </section>
                                             <section class="product-colors">
-                                                <section class="product-colors-item" style="background-color: yellow;"></section>
-                                                <section class="product-colors-item" style="background-color: green;"></section>
-                                                <section class="product-colors-item" style="background-color: white;"></section>
-                                                <section class="product-colors-item" style="background-color: blue;"></section>
-                                                <section class="product-colors-item" style="background-color: red;"></section>
+                                                @foreach($relatedProduct->colors as $color)
+                                                <section class="product-colors-item" style="background-color: {{ $color->color }};"></section>
+                                             @endforeach                                                     
                                             </section>
                                         </a>
                                     </section>
@@ -335,7 +378,7 @@
                                                 <section class="modal-body">
                                                     <p>کونی خان اعظم برای نظر گذاشتن باید بکنی تو سایت</p>
                                                     <p> شروع ارضا
-                                                        <a href="{{ route('auth.customer.login-register-form') }}"> بمالش</a>
+                                                        <a href="{{ route('auth.customers.login-register-form') }}"> بمالش</a>
                                                     </p>
                                                 </section>
                                             @endguest
@@ -428,6 +471,32 @@
 </section>
 <!-- end description, features and comments -->
 
+<!-- start toast massage -->
+
+<section class="position-fixed p-4 flex-row-reverse" style="z-index: 909999999; left: 0; top: 3rem; width: 26rem; max-width: 80%;">
+    
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <strong class="mr-auto">فروشگاه</strong>
+          <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="toast-body">
+            <strong class="ml-auto">
+                خب کونی خان محترم .. الان میزنی علاقه مندی ها من اینو بزارمش تو کص بیبیت ؟؟
+                <br>
+                <a href="{{ route('auth.customers.login-register-form') }}" class="text-dark">
+                    بزن رو این تا بدونم کدون کونی هستی
+                </a>
+            </strong>             
+         </div>
+      </div>
+      
+</section>
+
+<!-- end toast massage -->
+
 @endsection
 
 @section('script')
@@ -476,7 +545,7 @@
             number = parseFloat($('#number').val());
         }
 
-        if($('#product_discount_price').length != 0)
+        if($('#product-discount-price').length != 0)
         {
             product_discount_price = parseFloat($('#product-discount-price').attr('data-product-discount-price'));
         }
@@ -484,8 +553,45 @@
         //final price
         var product_price = product_original_price + selected_color_price + selected_guarantee_price;
         var final_price = number * (product_price - product_discount_price);
-        $('#product-price').html(product_price);
-        $('#final-price').html(final_price);
+        $('#product-price').html(toFarsiNumber(product_price));
+        $('#final-price').html(toFarsiNumber(final_price));
     }
+
+    function toFarsiNumber(number)
+    {
+        const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+        // add comma
+        number = new Intl.NumberFormat().format(number);
+        //convert to persian
+        return number.toString().replace(/\d/g, x => farsiDigits[x]);
+    }
+</script>
+
+<script>
+    $('.product-add-to-favorite button').click(function() {
+       var url = $(this).attr('data-url');
+       var element = $(this);
+       $.ajax({
+           url : url,
+           success : function(result){
+            if(result.status == 1)
+            {
+                $(element).children().first().addClass('text-danger');
+                $(element).attr('data-original-title', 'حذف از علاقه مندی ها');
+                $(element).attr('data-bs-original-title', 'حذف از علاقه مندی ها');
+            }
+            else if(result.status == 2)
+            {
+                $(element).children().first().removeClass('text-danger')
+                $(element).attr('data-original-title', 'افزودن از علاقه مندی ها');
+                $(element).attr('data-bs-original-title', 'افزودن از علاقه مندی ها');
+            }
+            else if(result.status == 3)
+            {
+                $('.toast').toast('show');
+            }
+           }
+       })
+    })
 </script>
 @endsection

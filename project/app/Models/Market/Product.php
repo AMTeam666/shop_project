@@ -3,6 +3,7 @@
 namespace App\Models\Market;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Market\AmazingSale;
 use App\Models\Market\CategoryValue;
 use Illuminate\Database\Eloquent\Model;
@@ -98,5 +99,10 @@ class Product extends Model
     public function activeComments()
     {
         return $this->comments()->where('approved', 1)->whereNull('parent_id')->get();
+    }
+
+    public function user()
+    {
+        return $this->belongsToMany(User::class);
     }
 }

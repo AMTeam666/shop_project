@@ -51,14 +51,14 @@
                     @foreach($comments as $key => $comment)
                         <tr>
                             <th>{{ $key += 1}}</th>
-                            <td>{{ Str::limit($comment->body, 20) }}</td>
+                            <td>{!! Str::limit($comment->body, 20) !!}</td>
                             <td>{{ $comment->parent_id ? Str::limit($comment->parent->body, 10) : '' }}</td>
                             <td>{{ $comment->author_id }}</td>
                             <td>
-                                @if(empty($comment->first_name) && empty($comment->last_name))
+                                @if($comment->first_name != null)
                                     ناشناس
                                 @else
-                                     {{ $comment->user->fullName }} - {{ $comment->author_id }}
+                                     {{ $comment->user->fullName }} 
                                 @endif
                             </td>
                             <td>{{ $comment->commentable_id }}</td>
