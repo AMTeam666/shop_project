@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
-use App\Models\Market\Payment;
-use App\Models\Ticket\Ticket;
-use App\Models\Ticket\TicketAdmin;
+use App\Models\Address;
 use App\Models\User\Role;
+use App\Models\Ticket\Ticket;
+use App\Models\Market\Payment;
+use Laravel\Sanctum\HasApiTokens;
+use App\Models\Ticket\TicketAdmin;
+use Laravel\Jetstream\HasProfilePhoto;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -39,6 +40,7 @@ class User extends Authenticatable
         'profile_photo_path',
         'mobile_verified_at',
         'email_verified_at',
+        'national_code',
     ];
 
     /**
@@ -94,5 +96,9 @@ class User extends Authenticatable
         return $this->hasMany(Payment::class);
     }
 
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
     
 }
