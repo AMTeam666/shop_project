@@ -285,7 +285,7 @@
     <!-- end brand part-->
 
 
-    <section class="position-fixed p-4 flex-row-reverse" style="z-index: 909999999; left: 0; top: 3rem; width: 26rem; max-width: 80%;">
+    <section class="position-fixed p-4 flex-row-reverse" style="z-index: 909999999; right: 0; top: 3rem; width: 26rem; max-width: 80%;">
     
         <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
@@ -307,6 +307,7 @@
           
     </section>
 
+    @include('admin.alerts.sweetalert.success')
 
 
 
@@ -340,6 +341,24 @@
            }
        })
     })
+</script>
+
+<script>
+    //start product introduction, features and comment
+$(document).ready(function() {
+    var s = $("#introduction-features-comments");
+    var pos = s.position();
+    $(window).scroll(function() {
+        var windowpos = $(window).scrollTop();
+
+        if (windowpos >= pos.top) {
+            s.addClass("stick");
+        } else {
+            s.removeClass("stick");
+        }
+    });
+});
+//end product introduction, features and comment
 </script>
 
 @endsection

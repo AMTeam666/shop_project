@@ -18,6 +18,7 @@
     @include('customers.layouts.footer')
 
 
+    @include('admin.alerts.sweetalert.success')
 
     @include('customers.layouts.script')
     @yield('script')

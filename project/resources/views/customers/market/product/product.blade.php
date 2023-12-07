@@ -71,18 +71,19 @@
                                 </section>
                             </section>
                             <section class="product-info">
-
+                            <form id="add_to_cart" action="{{ route('customers.sales-process.add-to-cart', $product) }}" method="POST" class="product-info">
+                                    @csrf
                                 @php
                                 $colors = $product->colors()->get();
-                                  @endphp
+                                @endphp
 
                                   @if($colors->count() != 0)
-                                <p><span>رنگ انتخاب شده : <span id="selected_color_name"> {{ $colors->first()->color_name }}</span></span></p>
+                                <p><span>رنگ انتخاب شده : <span id="selected_color_name"> {{ $colors->first()->color_name }} </span></span></p>
                                 <p>
                                     @foreach ($colors as $key => $color)
 
                                     <label for="{{ 'color_' . $color->id }}" style="background-color: {{ $color->color ?? '#ffffff' }};" class="product-info-colors me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ $color->color_name }}"></label>
-
+                                        <p>{{ priceFormat($color->price_increase) }}</p>
                                     <input class="d-none" type="radio" name="color" id="{{ 'color_' . $color->id }}" value="{{ $color->id }}" data-color-name="{{ $color->color_name }}" data-color-price={{ $color->price_increase }} @if($key == 0) checked @endif>
                                     @endforeach
 
@@ -117,8 +118,8 @@
                                 </p>
                                 <p>
                                     @guest
-                                    <section class="product-add-to-favorite position-relative" style="top: 0">
-                                        <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه از علاقه مندی">
+                                    <section  class="product-add-to-favorite position-relative" style="top: 0">
+                                        <button type="button" class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه از علاقه مندی">
                                             <i class="fa fa-heart"></i>
                                         </button>
                                     </section>
@@ -126,13 +127,13 @@
                                     @auth
                                         @if ($product->user->contains(auth()->user()->id))
                                         <section class="product-add-to-favorite position-relative" style="top: 0">
-                                            <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="حذف از علاقه مندی">
+                                            <button type="button" class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="حذف از علاقه مندی">
                                                 <i class="fa fa-heart text-danger"></i>
                                             </button>
                                         </section>
                                         @else
                                         <section class="product-add-to-favorite position-relative" style="top: 0">
-                                            <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه به علاقه مندی">
+                                            <button type="button" class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه به علاقه مندی">
                                                 <i class="fa fa-heart"></i>
                                             </button>
                                         </section>
@@ -183,11 +184,12 @@
 
                             <section class="">
                                 @if($product->marketable_number > 0)
-                                <a id="next-level" href="#" class="btn btn-danger d-block">افزودن به سبد خرید</a>
+                                <button id="next-level"  class="btn btn-danger d-block" onclick="document.getElementById(add_to_cart).submit();">افزودن به سبد خرید</button>
                                 @else
                                 <a id="next-level" href="#" class="btn btn-secondary disabled d-block">محصول نا موجود میباشد</a>
                                 @endif
                             </section>
+                        </form>
 
                         </section>
                     </section>
@@ -473,7 +475,7 @@
 
 <!-- start toast massage -->
 
-<section class="position-fixed p-4 flex-row-reverse" style="z-index: 909999999; left: 0; top: 3rem; width: 26rem; max-width: 80%;">
+<section class="position-fixed p-4 flex-row-reverse" style="z-index: 909999999; right: 0; top: 3rem; width: 26rem; max-width: 80%;">
     
     <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
