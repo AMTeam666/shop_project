@@ -29,7 +29,7 @@ class ProductController extends Controller
 
         Comment::create($inputs);
 
-        return back()->with('swal-success','کیرمون هم نیست چی گفتی و این کص گفتنا دایورت شد به تخمای حضرت آقا');
+        return redirect()->route('customer.market.product', $product)->with('swal-success','کیرمون هم نیست چی گفتی و این کص گفتنا دایورت شد به تخمای حضرت آقا');
 
 
     }

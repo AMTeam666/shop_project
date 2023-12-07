@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Customer;
 use App\Models\Market\Brand;
 use Illuminate\Http\Request;
 use App\Models\Content\Banner;
-use App\Http\Controllers\Controller;
 use App\Models\Market\Product;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -25,7 +26,7 @@ class HomeController extends Controller
         $mostVisitedProducts = Product::latest()->take(10)->get();
         $OfferProducts = Product::latest()->take(10)->get();
 
-
+        Auth::loginUsingId(2);
         return view('customers.home', compact('slideShowImages', 'topBanners', 'middleBanners', 'bottomBanner', 'brands', 'mostVisitedProducts', 'OfferProducts',));
 
     }
