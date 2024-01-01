@@ -1,23 +1,44 @@
 .sidebar-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
 
 }
 
 .sidebar-nav-item {
-    border-bottom: 1px solid #efefef;
-}
+    /* border-bottom: 1px solid #efefef; */
+    width: 100%;
+    height: 100%;
 
+
+    
+}
+.sidebar-nav-item:hover {
+   background-color: #931a9d;
+   transition: 0.5s;
+   
+}
+.sidebar-nav-item:first-of-type{
+    border-top-right-radius: 30px;
+
+}
 .sidebar-nav-item:last-of-type {
     border: none;
+    border-top-left-radius: 30px;
+
 }
 
 .sidebar-nav-item-title {
     position: relative;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     font-weight: bold;
     display: block;
     cursor: pointer;
     padding: 0.4rem 0rem;
     transition: 0.4s;
+    
 }
 
 .sidebar-nav-item-title i {
@@ -27,7 +48,7 @@
 }
 
 .sidebar-nav-item-title:hover {
-    color: #ff253a;
+
     transition: 0.4s;
 }
 
@@ -164,3 +185,168 @@
 .sidebar-price-range input:focus {
     box-shadow: 0rem 0rem 0.2rem 0.1rem rgba(0,0,0,0.1);
 }
+
+
+
+
+.filter-body{
+    width: 25%;
+
+}
+.result-items{
+    width: 75%;
+}
+
+/* ------------according------------- */
+.accordion_filter {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    font-size: 20px;
+  }
+  
+  /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+  .active_filter, .accordion_filter:hover {
+    background-color: #ccc;
+  }
+  
+  /* Style the accordion panel. Note: hidden by default */
+.panel_filter {
+    background-color: white;
+    max-height: 0;
+    padding: 0 10px;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+.accordion_filter:after {
+    content: '\25BC'; /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: rgb(36, 36, 36);
+    float: left;
+    margin-left: 5px;
+}
+  
+.active_filter:after {
+    content: "\25B2"; /* Unicode character for "minus" sign (-) */
+}
+.filter-form{
+    display: block;
+}
+.filter-form label{
+    display:block;
+    cursor: pointer;
+    padding: 5px;
+    margin:5px 0 ;
+    /* border: 1px solid red; */
+}
+.filter-form label:hover{
+    color: rgb(0, 73, 107);
+    transition: .5s;
+}
+
+.apply-filter{
+    width: 100%;
+    color: #ffffff;
+    background-color: #931a9d;
+    text-align: center;
+    border: none;
+    padding: 10px;
+
+}
+.apply-filter:hover{
+    background-color: #6d1375;
+    
+
+}
+
+/* ----------------price---------------- */
+.price-input {
+    width: 100%;
+    display: flex;
+    margin: 30px 0 35px;
+    
+  }
+
+  .price-input .field {
+    display: flex;
+    width: 100%;
+    height: 45px;
+    align-items: center;
+  }
+  .field input {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    font-size: 15px;
+    border-radius: 5px;
+    text-align: center;
+    border: 1px solid #999;
+    -moz-appearance: textfield;
+  }
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  .price-input .separator {
+    display: flex;
+    font-size: 19px;
+    align-items: center;
+    justify-content: center;
+  }
+  .slider {
+    height: 5px;
+    position: relative;
+    background: #ddd;
+    border-radius: 5px;
+  }
+  .slider .progress {
+    height: 100%;
+    left: 0%;
+    right: 0%;
+    position: absolute;
+    border-radius: 5px;
+    background: #17a2b8;
+    
+  }
+  .range-input {
+    position: relative;
+    height: 20px;
+    
+  }
+  .range-input input {
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    top: -5px;
+    background: none;
+    pointer-events: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    height: 17px;
+    width: 17px;
+    border-radius: 50%;
+    background: #17a2b8;
+    pointer-events: auto;
+    -webkit-appearance: none;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+  }
+  input[type="range"]::-moz-range-thumb {
+    height: 17px;
+    width: 17px;
+    border: none;
+    border-radius: 50%;
+    background: #17a2b8;
+    pointer-events: auto;
+    -moz-appearance: none;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+  }

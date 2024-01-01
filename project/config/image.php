@@ -22,11 +22,11 @@ return [
     'index-image-sizes' => [
         'large' => [
             'width' => 800,
-            'height' => 600
+            'height' => 800
         ],
         'medium' => [
-            'width' => 350,
-            'height' => 350
+            'width' => 240,
+            'height' => 240
         ],
         'small' => [
             'width' =>  80,

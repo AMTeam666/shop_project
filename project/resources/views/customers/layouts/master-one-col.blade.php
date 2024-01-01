@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     @include('customers.layouts.head-tags')
-    @yield('head-tag')
+    @yield('head-tags')
 </head>
-<body>
-
+<body class="@yield('body-class')">
+    @yield('background-image')
     @include('customers.layouts.header')
 
     <main id="main-body-one-col" class="main-body">

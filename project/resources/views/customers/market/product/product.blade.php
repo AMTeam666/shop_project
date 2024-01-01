@@ -1,199 +1,146 @@
-@extends('customers.layouts.master-two-col')
+@extends('customers.layouts.master-one-col')
 
-@section('head-tag')
+@section('body-class', 'body-product')
+
+@section('head-tags')
 <title>{{ $product->name }}</title>
 @endsection
 
 @section('content')
 
-
 <!-- start cart -->
-<section class="mb-4">
-    <section class="container-xxl" >
-        <section class="row">
+<section class="mb-4 product-main">
+    <section class="container-xxl product-main-container">
+        <section class="">
             <section class="col">
-                <!-- start vontent header -->
-                <section class="content-header">
-                    <section class="d-flex justify-content-between align-items-center">
-                        <h2 class="content-header-title">
-                            <span>{{ $product->name }}</span>
-                        </h2>
-                        <section class="content-header-link">
-                            <!--<a href="#">مشاهده همه</a>-->
-                        </section>
-                    </section>
-                </section>
 
-                <section class="row mt-4">
-                    <!-- start image gallery -->
-                    <section class="col-md-4">
-                        <section class="content-wrapper bg-white p-3 rounded-2 mb-4">
-                            <section class="product-gallery">
-                                @php
-                                    $imageGalley = $product->images()->get();
-                                    $images = collect();
-                                    $images->push($product->image);
-                                    foreach ($imageGalley as $image) {
-                                        $images->push($image->image);
-                                    }
 
-                                @endphp
-                                <section class="product-gallery-selected-image mb-3">
-                                    <img src="{{ asset($images->first()['indexArray']['medium']) }}" alt="">
-                                </section>
-                                <section class="product-gallery-thumbs">
-                                    @foreach ($images as $key => $image)
-
-                                    <img class="product-gallery-thumb" src="{{ asset($image['indexArray']['medium']) }}" alt="{{ asset($image['indexArray']['medium']) . '-' . ($key + 1) }}" data-input="{{ asset($image['indexArray']['medium']) }}">
-
-                                    @endforeach
-
-                                </section>
-                            </section>
-                        </section>
-                    </section>
-                    <!-- end image gallery -->
-
+                <section class="d-flex w-100">
                     <!-- start product info -->
-                    <section class="col-md-5">
+                    <section class="product-info-container p-3 ">
 
-                        <section class="content-wrapper bg-white p-3 rounded-2 mb-4">
+                        <section class="content-wrapper p-3 rounded-2 mb-4">
 
                             <!-- start vontent header -->
-                            <section class="content-header mb-3">
-                                <section class="d-flex justify-content-between align-items-center">
-                                    <h2 class="content-header-title content-header-title-small">
-                                        {{ $product->name }}
-                                    </h2>
-                                    <section class="content-header-link">
-                                        <!--<a href="#">مشاهده همه</a>-->
-                                    </section>
-                                </section>
-                            </section>
                             <section class="product-info">
-                            <form id="add_to_cart" action="{{ route('customers.sales-process.add-to-cart', $product) }}" method="POST" class="product-info">
-                                    @csrf
-                                @php
-                                $colors = $product->colors()->get();
-                                @endphp
-
-                                  @if($colors->count() != 0)
-                                <p><span>رنگ انتخاب شده : <span id="selected_color_name"> {{ $colors->first()->color_name }} </span></span></p>
-                                <p>
-                                    @foreach ($colors as $key => $color)
-
-                                    <label for="{{ 'color_' . $color->id }}" style="background-color: {{ $color->color ?? '#ffffff' }};" class="product-info-colors me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ $color->color_name }}"></label>
-                                        <p>{{ priceFormat($color->price_increase) }}</p>
-                                    <input class="d-none" type="radio" name="color" id="{{ 'color_' . $color->id }}" value="{{ $color->id }}" data-color-name="{{ $color->color_name }}" data-color-price={{ $color->price_increase }} @if($key == 0) checked @endif>
-                                    @endforeach
-
-                                </p>
-                                @endif
-
-                                @php
-                                $guarantees = $product->guarantees()->get();
-                                  @endphp
-                                  @if($guarantees->count() != 0)
-
-                                <p><i class="fa fa-shield-alt cart-product-selected-warranty me-1"></i>
-                                گارانتی :
-                                <select name="guarantee" id="guarantee" class="p-1">
-                                    @foreach ($guarantees as $key => $guarantee)
-                                    <option value="{{ $guarantee->id }}" data-guarantee-price={{ $guarantee->price_increase }}  @if($key == 0) selected @endif>{{ $guarantee->name }} : {{ priceFormat($guarantee->price_increase) }} تومان</option>
-                                    @endforeach
-
-                                </select>
-                                </p>
-
-                                @endif
-
-
-
-                                <p>
-                                    @if($product->marketable_number > 0)
-                                    <i class="fa fa-store-alt cart-product-selected-store me-1"></i> <span>کالا موجود در انبار</span>
-                                    @else
-                                    <i class="fa fa-store-alt cart-product-selected-store me-1"></i> <span>کالا ناموجود</span>
-                                    @endif
-                                </p>
-                                <p>
-                                    @guest
-                                    <section  class="product-add-to-favorite position-relative" style="top: 0">
-                                        <button type="button" class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه از علاقه مندی">
-                                            <i class="fa fa-heart"></i>
-                                        </button>
-                                    </section>
-                                    @endguest
-                                    @auth
-                                        @if ($product->user->contains(auth()->user()->id))
-                                        <section class="product-add-to-favorite position-relative" style="top: 0">
-                                            <button type="button" class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="حذف از علاقه مندی">
-                                                <i class="fa fa-heart text-danger"></i>
-                                            </button>
-                                        </section>
-                                        @else
-                                        <section class="product-add-to-favorite position-relative" style="top: 0">
-                                            <button type="button" class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه به علاقه مندی">
-                                                <i class="fa fa-heart"></i>
-                                            </button>
-                                        </section>
-                                        @endif
-                                    @endauth  
-                                </p>
-                                <section>
-                                    <section class="cart-product-number d-inline-block ">
-                                        <button class="cart-number cart-number-down" type="button">-</button>
-                                        <input type="number" id="number" name="number" min="1" max="5" step="1" value="1" readonly="readonly">
-                                        <button class="cart-number cart-number-up" type="button">+</button>
-                                    </section>
+                                <section class="product-name-container text-center">
+                                    <h2 class="text-primary">{{ $product->name }}</h2>
                                 </section>
-                                <p class="mb-3 mt-5">
-                                    <i class="fa fa-info-circle me-1"></i>کاربر گرامی  خرید شما هنوز نهایی نشده است. برای ثبت سفارش و تکمیل خرید باید ابتدا آدرس خود را انتخاب کنید و سپس نحوه ارسال را انتخاب کنید. نحوه ارسال انتخابی شما محاسبه و به این مبلغ اضافه شده خواهد شد. و در نهایت پرداخت این سفارش صورت میگیرد. پس از ثبت سفارش کالا بر اساس نحوه ارسال که شما انتخاب کرده اید کالا برای شما در مدت زمان مذکور ارسال می گردد.
-                                </p>
                             </section>
+                            <section class="my-4">
+                                <p><i class="fa fa-store-alt cart-product-selected-warranty me-1"></i> <span> فروشنده :
+                                        ای پی تویز </span></p>
+                                <p class="border-bottom border-secondary"><i class="fas fa-city cart-product-selected-warranty me-1 "></i> <span>شهر : مشهد
+                                    </span></p>
+                                <p><i class="fa fa-shopping-basket cart-product-selected-store me-1 "></i> <span>
+                                        @if ($product->marketable_number > 0)
+                                        کالا موجود در انبار
+                                        @else
+                                        کالا ناموجود
+                                        @endif
+                                    </span></p>
+                            </section>
+                            <section class="">
+                                <section class="content-wrapper bg-white p-3 rounded-2 cart-total-price">
+                                    <section class="d-flex justify-content-between align-items-center">
+                                        <p class="text-muted">قیمت کالا</p>
+                                        <p class="text-muted">{{ priceFormat($product->price) }}<span class="small">تومان</span></p>
+                                    </section>
+                                    @if ($product->activeAmazingSale() != null)
+                                    @php
+                                    $amazingSale = $product->activeAmazingSale();
+                                    $discount = $product->price * ($amazingSale->percentage / 100);
+                                    @endphp
+                                    <section class="d-flex justify-content-between align-items-center">
+                                        <p class="text-muted">تخفیف کالا</p>
+                                        <p class="text-danger fw-bolder">{{ priceFormat($discount) }}<span class="small">تومان</span></p>
+                                    </section>
+                                    @endif
+                                    <section class="border-bottom mb-3"></section>
+                                    @if ($product->activeAmazingSale() != null)
+                                    <section class="d-flex justify-content-end align-items-center">
+                                        <p class="fw-bolder">{{ priceFormat($product->price - $discount) }} <span class="small">تومان</span></p>
+                                    </section>
+                                    @else
+                                    <section class="d-flex justify-content-end align-items-center">
+                                        <p class="fw-bolder">{{ priceFormat($product->price) }}<span class="small">تومان</span></p>
+                                    </section>
+                                    @endif
+                                </section>
+                            </section>
+                            <section>
+                                <section class="cart-product-number d-inline-block ">
+                                    <button class="cart-number-down" type="button">-</button>
+                                    <input class="" type="number" min="1" max="5" step="1" value="1" readonly="readonly">
+                                    <button class="cart-number-up" type="button">+</button>
+                                </section>
+                            </section>
+                            <section class="button-add-to-cart-container">
+                                <button id="next-level" class="btn d-block button-add-to-cart">افزودن به سبد
+                                    خرید</button>
+                            </section>
+                            <p>
+                                @guest
+                                <section class="product-add-to-favorite  position-relative" style="top: 0">
+                                    <button type="button" class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه از علاقه مندی">
+                                        <i class="fa fa-heart"></i><span>اضافه از علاقه مندی</span>
+                                    </button>
+                                </section>
+                                @endguest
+                                @auth
+                                @if ($product->user->contains(auth()->user()->id))
+                                <section class="product-add-to-favorite  position-relative" style="top: 0">
+                                    <button type="button" class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="حذف از علاقه مندی">
+                                        <i class="fa fa-heart text-danger"></i><span>حذف از علاقه مندی</span>
+                                    </button>
+                                </section>
+                                @else
+                                <section class="product-add-to-favorite position-relative" style="top: 0">
+                                    <button type="button" class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه به علاقه مندی">
+                                        <i class="fa fa-heart"></i><span>اضافه از علاقه مندی</span>
+                                    </button>
+                                </section>
+                                @endif
+                                @endauth
+                            </p>
+
                         </section>
 
                     </section>
                     <!-- end product info -->
 
-                    <section class="col-md-3">
-                        <section class="content-wrapper bg-white p-3 rounded-2 cart-total-price">
-                            <section class="d-flex justify-content-between align-items-center">
-                                <p class="text-muted">قیمت کالا</p>
-                                <p class="text-muted"><span id="product_price" data-product-original-price={{ $product->price }}>{{ priceFormat($product->price) }}</span> <span class="small">تومان</span></p>
+
+                    <!-- start image gallery -->
+                    <section class="product-gallery-container">
+                        <section class="content-wrapper p-3 rounded-2 ">
+                            <section class="product-gallery d-flex">
+                                <section class="product-gallery-selected-image mb-3">
+                                    @php
+                                    $imageGalley = $product->images()->get();
+                                    $images = collect();
+                                    $images->push($product->image);
+                                    foreach ($imageGalley as $image) {
+                                    $images->push($image->image);
+                                    }
+                                    @endphp
+                                    <img src="{{ asset($images->first()['indexArray']['large']) }}" alt="">
+                                </section>
+                                <section class="product-gallery-thumbs d-flex flex-column align-items-center">
+                                    @foreach ($images as $key => $image)
+                                    <img class="product-gallery-thumb" src="{{ asset($image['indexArray']['medium']) }}" alt="" data-input="{{ asset($image['indexArray']['large']) }}">
+                                    @endforeach
+                                </section>
+
                             </section>
-
-
-                            @php
-
-                            $amazingSale = $product->activeAmazingSale();
-
-                            @endphp
-                            @if(!empty($amazingSale))
-                            <section class="d-flex justify-content-between align-items-center">
-                                <p class="text-muted">تخفیف کالا</p>
-                                <p class="text-danger fw-bolder" id="product-discount-price" data-product-discount-price="{{ ($product->price * ($amazingSale->percentage / 100) ) }}">{{ priceFormat($product->price * ($amazingSale->percentage / 100) ) }} <span class="small">تومان</span></p>
-                            </section>
-                            @endif
-
-                            <section class="border-bottom mb-3"></section>
-
-                            <section class="d-flex justify-content-end align-items-center">
-                                <p class="fw-bolder"><span  id="final-price"></span> <span class="small">تومان</span></p>
-                            </section>
-
-                            <section class="">
-                                @if($product->marketable_number > 0)
-                                <button id="next-level"  class="btn btn-danger d-block" onclick="document.getElementById(add_to_cart).submit();">افزودن به سبد خرید</button>
-                                @else
-                                <a id="next-level" href="#" class="btn btn-secondary disabled d-block">محصول نا موجود میباشد</a>
-                                @endif
-                            </section>
-                        </form>
-
                         </section>
                     </section>
+                    <!-- end image gallery -->
+
+
+
+
                 </section>
+
             </section>
         </section>
 
@@ -201,157 +148,101 @@
 </section>
 <!-- end cart -->
 
-
-
-<!-- start product lazy load -->
+<!-- start description, features-->
 <section class="mb-4">
-    <section class="container-xxl" >
-        <section class="row">
-            <section class="col">
-                <section class="content-wrapper bg-white p-3 rounded-2">
-                    <!-- start vontent header -->
-                    <section class="content-header">
-                        <section class="d-flex justify-content-between align-items-center">
-                            <h2 class="content-header-title">
-                                <span>کالاهای مرتبط</span>
-                            </h2>
-                            <section class="content-header-link">
-                                <!--<a href="#">مشاهده همه</a>-->
-                            </section>
-                        </section>
-                    </section>
-                    <!-- start vontent header -->
-                    <section class="lazyload-wrapper" >
-                        <section class="lazyload light-owl-nav owl-carousel owl-theme">
+    <section class="container-xxl">
+        <section class="">
+            <section class="">
+                <section class="content-wrapper rounded-2 shadow-none">
 
-                            @foreach ($relatedProducts as $relatedProduct)
+                    <section class="py-4 d-flex">
 
-                            <section class="item">
-                                <section class="lazyload-item-wrapper">
-                                    <section class="product">
-                                        <section class="product-add-to-cart"><a href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="افزودن به سبد خرید"><i class="fa fa-cart-plus"></i></a></section>
-                                       
-                                        @guest
-                                        <section class="product-add-to-favorite">
-                                            <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $relatedProduct) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه از علاقه مندی">
-                                                <i class="fa fa-heart"></i>
-                                            </button>
-                                        </section>
-                                        @endguest
-                                        @auth
-                                            @if ($relatedProduct->user->contains(auth()->user()->id))
-                                            <section class="product-add-to-favorite">
-                                                <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $relatedProduct) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="حذف از علاقه مندی">
-                                                    <i class="fa fa-heart text-danger"></i>
-                                                </button>
-                                            </section>
-                                            @else
-                                            <section class="product-add-to-favorite">
-                                                <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $relatedProduct) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه به علاقه مندی">
-                                                    <i class="fa fa-heart"></i>
-                                                </button>
-                                            </section>
-                                            @endif
-                                        @endauth    
-                                        <a class="product-link" href="{{  route('customer.market.product', $relatedProduct) }}">
-                                            <section class="product-image">
-                                                <img class="" src="{{ asset($relatedProduct->image['indexArray']['medium']) }}" alt="">
-                                            </section>
-                                            <section class="product-name"><h3>{{ $relatedProduct->name }}</h3></section>
-                                            <section class="product-price-wrapper">
-                                                <section class="product-price">{{ priceFormat($relatedProduct->price) }} تومان</section>
-                                            </section>
-                                            <section class="product-colors">
-                                                @foreach($relatedProduct->colors as $color)
-                                                <section class="product-colors-item" style="background-color: {{ $color->color }};"></section>
-                                             @endforeach                                                     
-                                            </section>
-                                        </a>
+                        <!-- start introduction + vontent header -->
+                        <section class="product-introduction-container">
+
+                            <section id="introduction" class="content-header mt-2">
+                                <section class="d-flex justify-content-between align-items-center">
+                                    <h2 class="content-header-title content-header-title-small">
+                                        معرفی
+                                    </h2>
+                                    <section class="content-header-link">
+                                        <!--<a href="#">مشاهده همه</a>-->
                                     </section>
                                 </section>
                             </section>
-                            @endforeach
+                            <section class="product-introduction mb-4">
+                                خلاصه کتاب اثر مرکب «انتخاب‌های شما تنها زمانی معنی دار است که آنها را به دلخواه به
+                                رؤیاهای خود متصل کنید. انتخاب‌های شایسته و انگیزشی، همان‌هایی هستند که شما به عنوان هدف
+                                خود و هسته اصلی زندگی خود در بالاترین ارزش‌های خود تعین می‌کنید. شما باید چیزی را
+                                بخواهید و می‌دانید که چرا شما آن را می‌خواهید یا به راحتی می‌توانید آن از دست بدهید.»
+                                «اولین گام در جهت تغییر، آگاهی است. اگر می‌خواهید از جایی که هستید به جایی که می‌خواهید
+                                بروید، باید با درک انتخاب‌هایی که شما را از مقصد مورد نظر خود دور می‌کنند، شروع کنید.»
+                                «فرمول کامل برای به دست آوردن خوش شانسی: آماده‌سازی (رشد شخصی) + نگرش (باور / ذهنیت) +
+                                فرصت (چیز خوبی که راه را هموار می‌کند) + اقدام (انجام کاری در مورد نظر) = شانس» «ما همه
+                                می‌توانیم انتخاب‌های بسیار خوبی داشته باشیم. ما می‌توانیم همه چیز را کنترل کنیم. این در
+                                توانایی ماست که همه چیز را تغییر دهیم. به جای اینکه غرق در گذشته شویم، باید دوباره انرژی
+                                خود را جمع کنیم، می‌توانیم از تجربیات گذشته برای حرکت‌های مثبت و سازنده استفاده کنیم.»
+                                برای ایجاد تغییر، ما نیاز به این داریم که عادات و رفتار خوب را ایجاد کنیم، که در کتاب از
+                                آن به عنوان تکانش یاد می شود. تکانش بدین معنی که با ریتم منظم و دائمی و ثبات قدم همراه
+                                باشید. حرکت های افراطی و تفریطی، موضع های عجله ای و جوگیر شدن و عدم ریتم مناسب موجب
+                                خواهد شد که ثبات قدم نداشته باشیم و حتی شاید از مسیر اصلی دور شویم و تکانش ما با لرزه
+                                های فراوان و یا حتی سکون و سکوت مواجه شود. واقعیت رهرو آن است که آهسته و پیوسته رود
+                                اینجا پدیدار می گردد و باید همیشه بدانیم هیچ چیز مثل عدم ثبات قدم و نداشتن ریتم مناسب در
+                                زمان تغییر، نمی تواند تکانش را با مشکل مواجه کند! متن بالا شاید بهترین خلاصه ای باشد که
+                                می شود از کتاب نوشت!
+                            </section>
 
+                        </section>
+
+
+                        <!-- start features + vontent header -->
+                        <section class="product-features-container">
+
+                            <section id="features" class="content-header mt-2 mb-4">
+                                <section class="d-flex justify-content-between align-items-center">
+                                    <h2 class="content-header-title content-header-title-small">
+                                        ویژگی ها
+                                    </h2>
+                                    <section class="content-header-link">
+                                        <!--<a href="#">مشاهده همه</a>-->
+                                    </section>
+                                </section>
+                            </section>
+                            <section class="product-features mb-4 table-responsive">
+                                <table class="table table-product-features ">
+                                    @foreach ($product->metas()->get() as $meta)
+                                    <tr>
+                                        <td>{{ $meta->meta_key }}</td>
+                                        <td>{{ $meta->meta_value }}</td>
+                                    </tr>
+                                    @endforeach
+                                </table>
+                                @php
+                                $tags = explode(',', $product->tags);
+                                @endphp
+
+                                @foreach ($tags as $tag)
+                                <a class="text-decoration-none" href="#">{{ $tag }}</a>
+                                @endforeach
+                            </section>
 
                         </section>
                     </section>
+
                 </section>
             </section>
         </section>
     </section>
 </section>
-<!-- end product lazy load -->
 
-<!-- start description, features and comments -->
+<!-- start COMMENTS-->
 <section class="mb-4">
-    <section class="container-xxl" >
-        <section class="row">
-            <section class="col">
+    <section class="container-xxl">
+        <section class="">
+            <section class="">
                 <section class="content-wrapper bg-white p-3 rounded-2">
-                    <!-- start content header -->
-                    <section id="introduction-features-comments" class="introduction-features-comments">
-                        <section class="content-header">
-                            <section class="d-flex justify-content-between align-items-center">
-                                <h2 class="content-header-title">
-                                    <span class="me-2"><a class="text-decoration-none text-dark" href="#introduction">معرفی</a></span>
-                                    <span class="me-2"><a class="text-decoration-none text-dark" href="#features">ویژگی ها</a></span>
-                                    <span class="me-2"><a class="text-decoration-none text-dark" href="#comments">دیدگاه ها</a></span>
-                                </h2>
-                                <section class="content-header-link">
-                                    <!--<a href="#">مشاهده همه</a>-->
-                                </section>
-                            </section>
-                        </section>
-                    </section>
-                    <!-- start content header -->
 
                     <section class="py-4">
-
-                        <!-- start vontent header -->
-                        <section id="introduction" class="content-header mt-2 mb-4">
-                            <section class="d-flex justify-content-between align-items-center">
-                                <h2 class="content-header-title content-header-title-small">
-                                    معرفی
-                                </h2>
-                                <section class="content-header-link">
-                                    <!--<a href="#">مشاهده همه</a>-->
-                                </section>
-                            </section>
-                        </section>
-                        <section class="product-introduction mb-4">
-                            {!! $product->introduction !!}
-                        </section>
-
-                        <!-- start vontent header -->
-                        <section id="features" class="content-header mt-2 mb-4">
-                            <section class="d-flex justify-content-between align-items-center">
-                                <h2 class="content-header-title content-header-title-small">
-                                    ویژگی ها
-                                </h2>
-                                <section class="content-header-link">
-                                    <!--<a href="#">مشاهده همه</a>-->
-                                </section>
-                            </section>
-                        </section>
-                        <section class="product-features mb-4 table-responsive">
-                            <table class="table table-bordered border-white">
-                                @foreach ($product->values()->get() as $value)
-                                <tr>
-                                    <td>{{ $value->attribute()->first()->name }}</td>
-                                    <td>{{ json_decode($value->value)->value }} {{ $value->attribute()->first()->unit }}</td>
-                                </tr>
-                                @endforeach
-
-                                @foreach ($product->metas()->get() as $meta)
-                                <tr>
-                                    <td>{{ $meta->meta_key }}</td>
-                                    <td>{{ $meta->meta_value }}</td>
-                                </tr>
-                                @endforeach
-
-
-                            </table>
-                        </section>
 
                         <!-- start vontent header -->
                         <section id="comments" class="content-header mt-2 mb-4">
@@ -364,236 +255,330 @@
                                 </section>
                             </section>
                         </section>
-                        <section class="product-comments mb-4">
+                        <section class="product-comments mb-4"> @auth
+                            <button class="accordion_add_comment">افزودن دیدگاه <i class="fa fa-plus"></i></button>
+                            @endauth
+                            @guest
+                            <span>برای نظر دادن ابتدا در سایت ثبت نام کنید <a class="text-decoration-none" href="{{ route('auth.customers.login-register-form') }}">ثبت نام / ورود</a></span>
+                            @endguest
+                            <!-- start add comment Modal -->
 
-                            <section class="comment-add-wrapper">
-                                <button class="comment-add-button" type="button" data-bs-toggle="modal" data-bs-target="#add-comment" ><i class="fa fa-plus"></i> افزودن دیدگاه</button>
-                                <!-- start add comment Modal -->
-                                <section class="modal fade" id="add-comment" tabindex="-1" aria-labelledby="add-comment-label" aria-hidden="true">
-                                    <section class="modal-dialog">
-                                        <section class="modal-content">
-                                            <section class="modal-header">
-                                                <h5 class="modal-title" id="add-comment-label"><i class="fa fa-plus"></i> افزودن دیدگاه</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </section>
-                                            @guest
-                                                <section class="modal-body">
-                                                    <p>کونی خان اعظم برای نظر گذاشتن باید بکنی تو سایت</p>
-                                                    <p> شروع ارضا
-                                                        <a href="{{ route('auth.customers.login-register-form') }}"> بمالش</a>
-                                                    </p>
+                            <div class="panel_add_comment">
+                                <section class="comment-add-wrapper">
+                                    <!-- start add comment Modal -->
+
+                                    <section class="" id="">
+                                        <section class="">
+                                            <section class="">
+                                                <section class="">
+                                                    <form class="" action="{{ route('customer.market.add-comment', $product) }}" method="POST">
+                                                        @csrf
+                                                        <section class="col-12 mb-2">
+                                                            <label for="comment" class="form-label mb-1">دیدگاه شما</label>
+                                                            <textarea name="body" class="form-control form-control-sm" id="comment" placeholder="دیدگاه شما ..." rows="15"></textarea>
+                                                        </section>
                                                 </section>
-                                            @endguest
-                                            @auth
-
-                                            <section class="modal-body">
-                                                <form class="row" action="{{ route('customer.market.add-comment', $product) }}" method="post">
-                                                    @csrf
-                                                    {{-- <section class="col-6 mb-2">
-                                                        <label for="first_name" class="form-label mb-1">نام</label>
-                                                        <input type="text" class="form-control form-control-sm" id="first_name" placeholder="نام ...">
-                                                    </section>
-
-                                                    <section class="col-6 mb-2">
-                                                        <label for="last_name" class="form-label mb-1">نام خانوادگی</label>
-                                                        <input type="text" class="form-control form-control-sm" id="last_name" placeholder="نام خانوادگی ...">
-                                                    </section> --}}
-
-                                                    <section class="col-12 mb-2">
-                                                        <label for="comment" class="form-label mb-1">کصشر شما</label>
-                                                        <textarea class="form-control form-control-sm" id="comment" placeholder="دیدگاه شما ..." rows="4" name="body"></textarea>
-                                                    </section>
-
+                                                <section class="py-1 text-center">
+                                                    <button type="submit" class="btn btn-sm btn-primary w-25 button-sumbit-comment">ثبت دیدگاه</button>
+                                                </section>
+                                            </form>
                                             </section>
-                                            <section class="modal-footer py-1">
-                                                <button type="submit" class="btn btn-sm btn-primary">ثبت کصشر</button>
-                                                <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal">بستن</button>
-                                            </section>
-                                        </form>
-                                            @endauth
                                         </section>
                                     </section>
                                 </section>
-                            </section>
-
-                            @foreach ($product->activeComments() as $activeComment)
+                            </div>
+            
+                            @foreach ($product->activeComments()->reverse() as $activeComment)
                             <section class="product-comment">
-                                <section class="product-comment-header d-flex justify-content-start">
-                                    <section class="product-comment-date">{{ jalaliDate($activeComment->created_at) }}</section>
+                                <section class="product-comment-header d-flex justify-content-between">
+
                                     @php
-                                        $author = $activeComment->user()->first();
+                                    $author = $activeComment->user()->first();
                                     @endphp
                                     <section class="product-comment-title">
-                                        @if(empty($author->first_name) && empty($author->last_name))
-                                            ناشناس
-                                            @else
-                                            {{ $author->first_name . ' ' . $author->last_name }}
+                                        @if (empty($author->first_name) && empty($author->last_name))
+                                        ناشناس
+                                        @else
+                                        {{ $author->first_name . ' ' . $author->last_name }}
                                         @endif
                                     </section>
+                                    <section class="product-comment-date">
+                                        {{ jalaliDate($activeComment->created_at) }}
+                                    </section>
                                 </section>
-                                <section class="product-comment-body @if($activeComment->answers()->count() > 0) border-bottom  @endif">
-                                 {!! $activeComment->body !!}
+                                <section class="product-comment-body @if ($activeComment->answers()->count() > 0) border-bottom @endif">
+                                    {!! $activeComment->body !!}
+                                    <section class="product-comment-vote text-end ">
+                                        <a href="#"><i class="fa fa-thumbs-down text-danger"></i></a>
+                                        <a href="#"><i class="fa fa-thumbs-up text-success"></i></a>
+                                    </section>
                                 </section>
-
 
                                 @foreach ($activeComment->answers()->get() as $commentAnswer)
-                                <section class="product-comment">
-                                    <section class="product-comment-header d-flex justify-content-start">
-                                        <section class="product-comment-date">{{ jalaliDate($commentAnswer->created_at) }}</section>
+                                <section class="product-comment ms-5 border-bottom-0">
+                                    <section class="product-comment-header d-flex justify-content-between">
                                         @php
-                                            $author = $commentAnswer->user()->first();
+                                        $author = $commentAnswer->user()->first();
                                         @endphp
                                         <section class="product-comment-title">
-                                            @if(empty($author->first_name) && empty($author->last_name))
-                                                ناشناس
-                                                @else
-                                                {{ $author->first_name . ' ' . $author->last_name }}
-                                            @endif
+                                            ادمین
+                                        </section>
+                                        <section class="product-comment-date">
+                                            {{ jalaliDate($commentAnswer->created_at) }}
                                         </section>
                                     </section>
-                                    <section class="product-comment-body @if($commentAnswer->answers()->count() > 0) border-bottom @endif">
-                                     {!! $commentAnswer->body !!}
+                                    <section class="product-comment-body @if ($commentAnswer->answers()->count() > 0) border-bottom @endif">
+                                        {!! $commentAnswer->body !!}
                                     </section>
                                 </section>
                                 @endforeach
-
-
                             </section>
                             @endforeach
-
-
-
                         </section>
                     </section>
+                </section>
+            </section>
 
+        </section>
+    </section>
+</section>
+</section>
+</section>
+<!-- end description, features and comments -->
+
+<!-- start product lazy load -->
+<section class="mb-3 pt-3">
+    <section class="container-xxl">
+        <section class="row">
+            <section class="col">
+                <section class="content-wrapper p-3 top-category-box container-product-box">
+                    <!-- start vontent header -->
+                    <section class="content-header">
+                        <section class="">
+                            <h2 class="content-header-title text-center">
+                                <span class="">پر فروش ها</span>
+                            </h2>
+                        </section>
+                    </section>
+                    <!-- start vontent header -->
+                    <section class="lazyload-wrapper">
+                        <section class="lazyload light-owl-nav owl-carousel owl-theme">
+                            @foreach ($relatedProducts as $relatedProduct)
+                            <section class="item">
+                                <section class="lazyload-item-wrapper">
+                                    <section class="product">
+                                        @auth
+                                        <form action="{{ route('customers.sales-process.add-to-cart', $relatedProduct) }}" method="POST">
+                                            @csrf
+                                            <section class="product-add-to-cart"><button class="btn btn-sm" type="submit" data-bs-toggle="tooltip" data-bs-placement="left" title="افزودن به سبد خرید"><i class="fa fa-cart-plus"></i></button>
+                                            </section>
+                                        </form>
+                                        @endauth
+                                        @guest
+                                        <section class="product-add-to-favorite">
+                                            <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $relatedProduct) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه از علاقه مندی">
+                                                <i class="fa fa-heart"></i>
+                                            </button>
+                                        </section>
+                                        @endguest
+                                        @auth
+                                        @if ($relatedProduct->user->contains(auth()->user()->id))
+                                        <section class="product-add-to-favorite">
+                                            <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $relatedProduct) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="حذف از علاقه مندی">
+                                                <i class="fa fa-heart text-danger"></i>
+                                            </button>
+                                        </section>
+                                        @else
+                                        <section class="product-add-to-favorite">
+                                            <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $relatedProduct) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه به علاقه مندی">
+                                                <i class="fa fa-heart"></i>
+                                            </button>
+                                        </section>
+                                        @endif
+                                        @endauth
+
+                                        @php
+                                        $productPrice = $relatedProduct->price;
+                                        $productDiscount = empty($relatedProduct->activeAmazingSale()) ? 0 :
+                                        $productPrice * ($relatedProduct->activeAmazingSale()->percentage / 100);
+                                        @endphp
+                                        <span class="product-link ">
+                                            <section class="product-image">
+                                                <img class="" src="{{ asset($relatedProduct->image['indexArray']['medium']) }}" alt="">
+                                            </section>
+                                            <section class="product-colors"></section>
+                                            <section class="product-name">
+                                                <h3>{{ $relatedProduct->name }}</h3>
+                                            </section>
+                                            <section class="product-price-wrapper">
+                                                @if (!$relatedProduct->activeAmazingSale() == null)
+                                                <section class="product-discount">
+                                                    <span class="product-old-price">{{
+                                                        priceFormat($relatedProduct->price) }}
+                                                        تومان</span>
+                                                </section>
+                                                @endif
+                                                <section class="product-price">
+                                                    {{ priceFormat($relatedProduct->price - $productDiscount) }}
+                                                    تومان</section>
+                                            </section>
+                                            @if (!$relatedProduct->activeAmazingSale() == null)
+                                            <section class="product-discount-percent">
+                                                <span class="product-discount-amount">{{
+                                                    $relatedProduct->activeAmazingSale()->percentage }}%</span>
+                                                <span class="product-discount-amount-text">off</span>
+                                            </section>
+                                            @endif
+                                        </span>
+                                        <section class="product-button-container text-center">
+                                            <a class="product-button btn btn-info w-100" href="{{ route('customer.market.product', $relatedProduct) }}">
+                                                مشاهده </a>
+                                        </section>
+
+                                    </section>
+                                </section>
+                            </section>
+                            @endforeach
+                        </section>
+                    </section>
                 </section>
             </section>
         </section>
     </section>
 </section>
-<!-- end description, features and comments -->
 
-<!-- start toast massage -->
-
-<section class="position-fixed p-4 flex-row-reverse" style="z-index: 909999999; right: 0; top: 3rem; width: 26rem; max-width: 80%;">
-    
-    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-          <strong class="mr-auto">فروشگاه</strong>
-          <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="toast-body">
-            <strong class="ml-auto">
-                خب کونی خان محترم .. الان میزنی علاقه مندی ها من اینو بزارمش تو کص بیبیت ؟؟
-                <br>
-                <a href="{{ route('auth.customers.login-register-form') }}" class="text-dark">
-                    بزن رو این تا بدونم کدون کونی هستی
-                </a>
-            </strong>             
-         </div>
-      </div>
-      
-</section>
-
-<!-- end toast massage -->
+<!-- end product lazy load -->
 
 @endsection
 
 @section('script')
-<script>
+
+{{-- <script>
     $(document).ready(function(){
-      bill();
-      //input color
-    $('input[name="color"]').change(function(){
-        bill();
-    })
-    //guarantee
-    $('select[name="guarantee"]').change(function(){
-        bill();
-    })
-     //number
-     $('.cart-number').click(function(){
-        bill();
-    })
-    })
-
-    function bill() {
-        if($('input[name="color"]:checked').length != 0){
-            var selected_color = $('input[name="color"]:checked');
-           $("#selected_color_name").html(selected_color.attr('data-color-name'));
+          bill();
+          //input color
+        $('input[name="color"]').change(function(){
+            bill();
+        })
+        //guarantee
+        $('select[name="guarantee"]').change(function(){
+            bill();
+        })
+         //number
+         $('.cart-number').click(function(){
+            bill();
+        })
+        })
+    
+        function bill() {
+            if($('input[name="color"]:checked').length != 0){
+                var selected_color = $('input[name="color"]:checked');
+               $("#selected_color_name").html(selected_color.attr('data-color-name'));
+            }
+    
+            //price computing
+            var selected_color_price = 0;
+            var selected_guarantee_price = 0;
+            var number = 1;
+            var product_discount_price = 0;
+            var product_original_price = parseFloat($('#product_price').attr('data-product-original-price'));
+    
+            if($('input[name="color"]:checked').length != 0)
+            {
+                selected_color_price = parseFloat(selected_color.attr('data-color-price'));
+            }
+    
+            if($('#guarantee option:selected').length != 0)
+            {
+                selected_guarantee_price = parseFloat($('#guarantee option:selected').attr('data-guarantee-price'));
+            }
+    
+            if($('#number').val() > 0)
+            {
+                number = parseFloat($('#number').val());
+            }
+    
+            if($('#product-discount-price').length != 0)
+            {
+                product_discount_price = parseFloat($('#product-discount-price').attr('data-product-discount-price'));
+            }
+    
+            //final price
+            var product_price = product_original_price + selected_color_price + selected_guarantee_price;
+            var final_price = number * (product_price - product_discount_price);
+            $('#product-price').html(toFarsiNumber(product_price));
+            $('#final-price').html(toFarsiNumber(final_price));
         }
-
-        //price computing
-        var selected_color_price = 0;
-        var selected_guarantee_price = 0;
-        var number = 1;
-        var product_discount_price = 0;
-        var product_original_price = parseFloat($('#product_price').attr('data-product-original-price'));
-
-        if($('input[name="color"]:checked').length != 0)
+    
+        function toFarsiNumber(number)
         {
-            selected_color_price = parseFloat(selected_color.attr('data-color-price'));
+            const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            // add comma
+            number = new Intl.NumberFormat().format(number);
+            //convert to persian
+            return number.toString().replace(/\d/g, x => farsiDigits[x]);
         }
+    
+</script> --}}
 
-        if($('#guarantee option:selected').length != 0)
-        {
-            selected_guarantee_price = parseFloat($('#guarantee option:selected').attr('data-guarantee-price'));
-        }
-
-        if($('#number').val() > 0)
-        {
-            number = parseFloat($('#number').val());
-        }
-
-        if($('#product-discount-price').length != 0)
-        {
-            product_discount_price = parseFloat($('#product-discount-price').attr('data-product-discount-price'));
-        }
-
-        //final price
-        var product_price = product_original_price + selected_color_price + selected_guarantee_price;
-        var final_price = number * (product_price - product_discount_price);
-        $('#product-price').html(toFarsiNumber(product_price));
-        $('#final-price').html(toFarsiNumber(final_price));
-    }
-
-    function toFarsiNumber(number)
-    {
-        const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-        // add comma
-        number = new Intl.NumberFormat().format(number);
-        //convert to persian
-        return number.toString().replace(/\d/g, x => farsiDigits[x]);
-    }
-</script>
 
 <script>
     $('.product-add-to-favorite button').click(function() {
-       var url = $(this).attr('data-url');
-       var element = $(this);
-       $.ajax({
-           url : url,
-           success : function(result){
-            if(result.status == 1)
-            {
-                $(element).children().first().addClass('text-danger');
-                $(element).attr('data-original-title', 'حذف از علاقه مندی ها');
-                $(element).attr('data-bs-original-title', 'حذف از علاقه مندی ها');
+        var url = $(this).attr('data-url');
+        var element = $(this);
+        $.ajax({
+            url: url
+            , success: function(result) {
+                if (result.status == 1) {
+                    $(element).children().first().addClass('text-danger');
+                    $(element).attr('data-original-title', 'حذف از علاقه مندی ها');
+                    $(element).attr('data-bs-original-title', 'حذف از علاقه مندی ها');
+                } else if (result.status == 2) {
+                    $(element).children().first().removeClass('text-danger')
+                    $(element).attr('data-original-title', 'افزودن از علاقه مندی ها');
+                    $(element).attr('data-bs-original-title', 'افزودن از علاقه مندی ها');
+                } else if (result.status == 3) {
+                    $('.toast').toast('show');
+                }
             }
-            else if(result.status == 2)
-            {
-                $(element).children().first().removeClass('text-danger')
-                $(element).attr('data-original-title', 'افزودن از علاقه مندی ها');
-                $(element).attr('data-bs-original-title', 'افزودن از علاقه مندی ها');
-            }
-            else if(result.status == 3)
-            {
-                $('.toast').toast('show');
-            }
-           }
-       })
+        })
     })
+
+</script>
+
+<script>
+    //start product introduction, features and comment
+    $(document).ready(function() {
+        var s = $("#introduction-features-comments");
+        var pos = s.position();
+        $(window).scroll(function() {
+            var windowpos = $(window).scrollTop();
+
+            if (windowpos >= pos.top) {
+                s.addClass("stick");
+            } else {
+                s.removeClass("stick");
+            }
+        });
+    });
+    //end product introduction, features and comment
+
+</script>
+<script>
+    var acc = document.getElementsByClassName("accordion_add_comment");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active_add_comment");
+            var panel_add_comment = this.nextElementSibling;
+            if (panel_add_comment.style.maxHeight) {
+                panel_add_comment.style.maxHeight = null;
+            } else {
+                panel_add_comment.style.maxHeight = panel_add_comment.scrollHeight + "px";
+            }
+        });
+    }
+
 </script>
 @endsection

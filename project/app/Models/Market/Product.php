@@ -27,6 +27,8 @@ class Product extends Model
         'length',
         'width',
         'height',
+        'age_range',
+        'gender',
         'price',
         'marketable',
         'sold_number',
@@ -44,6 +46,27 @@ class Product extends Model
                 'source' => 'name'
             ]
         ];
+    }
+    public static $age_range = [
+        0   =>  ' (تا یک سال)نوزاد',
+        1   =>  '1 تا 3 سال',
+        2   =>  '3 تا 5 سال',
+        3   =>  '5 تا 8 سال',
+        4   =>  '8 تا 12 سال',
+        5 => 'تمامی سنین'
+    ]; 
+    public static $gender = [
+        0   =>  'دخترانه',
+        1   =>  'پسرانه',
+        3   =>  'دخترانه و پسرانه',
+    ];
+    public function incrementViewCount() {
+        $this->view++;
+        return $this->save();
+    }
+    public function incrementSoldNumberCount($number) {
+        $this->sold_number += $number;
+        return $this->save();
     }
 
     public function category(){

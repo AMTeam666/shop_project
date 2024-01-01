@@ -12,7 +12,11 @@ class ProductController extends Controller
 {
     public function product(Product $product)
     {
+     
         $relatedProducts = Product::all();
+        $product->incrementViewCount();
+        
+
         return view("customers.market.product.product", compact("product", "relatedProducts"));
     }
 

@@ -38,8 +38,9 @@
                             <th>#</th>
                             <th>نام کالا</th>
                             <th> تصویر کالا</th>
+                            <th>رنج سنی</th>
+                            <th>جنسیت</th>
                             <th> قیمت</th>
-                            <th>وزن </th>
                             <th>دسته </th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
@@ -53,8 +54,9 @@
                                 <td>
                                     <img src="{{ asset($product->image['indexArray'][$product->image['currentImage']] ) }}" alt="" width="100" height="50">
                                 </td>
+                                <td>{{ $age_range[$product->age_range] }}</td>
+                                <td>{{ $gender[$product->gender] }}</td>
                                 <td>{{ $product->price }} تومان</td>
-                                <td>{{ $product->weight }} کیلو</td>
                                 <td>{{ $product->category->name }}</td>
                                 <td class="width-8-rem text-left">
                                     <div class="dropdown">

@@ -111,3 +111,52 @@ function validateNationalCode($nationalCode)
 
     }
 }
+
+
+function timeAgo ($time)
+{
+
+    $time = time() - $time; // to get the time since that moment
+    $time = ($time<1)? 1 : $time;
+    $tokens = array (
+        31536000 => 'سال',
+        2592000 => 'ماه',
+        604800 => 'هفته',
+        86400 => 'روز',
+        3600 => 'ساعت',
+        60 => 'دقیقه',
+        1 => 'ثانیه'
+    );
+
+    foreach ($tokens as $unit => $text) {
+        if ($time < $unit) continue;
+        $numberOfUnits = floor($time / $unit);
+        return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
+    }
+
+    function bankCardCheck($card='', $irCard=true)
+{
+    $card = (string) preg_replace('/\D/','',$card);
+    $strlen = strlen($card);
+    if($irCard==true and $strlen!=16)
+        return false;
+    if($irCard!=true and ($strlen<13 or $strlen>19))
+        return false;
+    if(!in_array($card[0],[2,4,5,6,9]))
+        return false;
+    
+    for($i=0; $i<$strlen; $i++)
+    {
+        $res[$i] = $card[$i];
+        if(($strlen%2)==($i%2))
+        {
+            $res[$i] *= 2;
+            if($res[$i]>9)
+                $res[$i] -= 9;        
+        }
+    }
+    return array_sum($res)%10==0?true:false;    
+}
+
+}
+

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin\User;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\User\AdminUserRequest;
-use App\Http\Services\Image\ImageService;
 use App\Models\User;
+use App\Models\User\Role;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Services\Image\ImageService;
+use App\Http\Requests\Admin\User\AdminUserRequest;
+use App\Models\User\Permission;
 
 class AdminUserController extends Controller
 {
@@ -141,5 +143,40 @@ class AdminUserController extends Controller
 
     }
 
+    public function role(User $admin)
+    {
+        $roles = Role::all();
+        return view('admin.user.admin-user.role', compact('roles', 'admin'));
+        
+    }
+
+    public function roleStore(User $admin, Request $request)
+    {   
+        $request->validate([
+            'roles' => 'required|exists:roles,id|array',
+        ]);
+
+        $admin->roles()->sync($request->roles);
+        return redirect()->route('admin.user.admin-user.index')->with('swal-success', 'نقش ها با موفقیت ثبت شد');
+
+    }
+    public function permissions(User $admin)
+    {
+        $permissions = Permission::all();
+        return view('admin.user.admin-user.permissions', compact('permissions', 'admin'));
+        
+    }
+
+    public function permissionsStore(User $admin, Request $request)
+    {   
+ 
+        $request->validate([
+            'permissions' => 'required|exists:permissions,id|array',
+        ]);
+
+        $admin->permissions()->sync($request->permissions);
+        return redirect()->route('admin.user.admin-user.index')->with('swal-success', 'سطوح دسترسی با موفقیت ثبت شد');
+
+    }
 
 }

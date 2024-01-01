@@ -3,9 +3,9 @@
     width: 100%;
     text-align: center;
     border-radius: 0.25rem;
-    border: 1px dashed #dedede;
+    border: 1px solid #dedede;
     color: #666666;
-    background-color: #fcfcfc;
+    background-color: #dfdfdf;
     font-size: 0.8rem;
     line-height: 4rem;
     padding-top: 0.3rem;
@@ -13,9 +13,9 @@
 }
 
 .address-add-button:hover {
-    border: 1px dashed #cdcdcd;
+    border: 1px solid #cdcdcd;
     color: #333333;
-    background-color: #efefef;
+    background-color: #cccccc;
     text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
     transition: 0.4s;
 }
@@ -52,34 +52,23 @@
     position: relative;
     border-radius: 0.25rem;
     border: 2px solid #dedede;
-    background-color: #fcfcfc;
+    background-color: #eeeeee;
     font-size: 0.8rem;
     color: #333333;
     transition: 0.4s;
 }
 
 .address-wrapper:hover {
-    border: 2px solid #00d2e2;
+    border: 2px solid #bc00e2;
     background-color: #efefef;
     cursor: pointer;
     transition: 0.4s;
 }
 
-.address-wrapper a{
-    position: absolute;
-    left: 0.4rem;
-    top: 0.4rem;
-    text-decoration: none;
-    font-size: 0.7rem;
-    margin: 0.2rem;
-    /*color: #00b5fe;*/
-    color: #999999;
-    background-color: inherit;
-    transition: 0.4s;
-}
+
 
 .address-wrapper:hover a{
-    color: #00b3c3;
+    color: #9200be;
     transition: 0.4s;
 }
 
@@ -89,7 +78,7 @@
 
 .address-select input[type=radio]:checked + .address-wrapper {
     /*background-color: #241009;*/
-    border-color: #00b3c3;
+    border-color: #e66aff;
     transition: 0.4s;
 }
 
@@ -98,7 +87,7 @@
     bottom: 0.4rem;
     left: 0.4rem;
     display: none;
-    color: #00b3c3;
+    color: #e66aff;
     font-size: 0.7rem;
 }
 
@@ -122,7 +111,7 @@
 }
 
 .delivery-wrapper:hover {
-    border: 2px solid #00d2e2;
+    border: 2px solid #bc00e2;
     background-color: #efefef;
     cursor: pointer;
     transition: 0.4s;
@@ -133,7 +122,7 @@
 }
 
 .delivery-select input[type=radio]:checked + .delivery-wrapper {
-    border-color: #00b3c3;
+    border-color: #e66aff;
     transition: 0.4s;
 }
 
@@ -148,4 +137,32 @@
 
 .address-alert {
     font-size: 0.8rem;
+    color: #630898;
+    background-color: #e9cfff;
+    border-color: #d6b6fe;
+}
+
+.delete-address{
+    position: absolute;
+    left: 0.4rem;
+    top: 3.4rem;
+    text-decoration: none;
+    font-size: 0.7rem;
+    margin: 0.2rem;
+    /*color: #00b5fe;*/
+    color: #999999;
+    background-color: inherit;
+    transition: 0.4s;
+}
+.edit-address{
+    position: absolute;
+    left: 0.4rem;
+    top: 1.4rem;
+    text-decoration: none;
+    font-size: 0.7rem;
+    margin: 0.2rem;
+    /*color: #00b5fe;*/
+    color: #999999;
+    background-color: inherit;
+    transition: 0.4s;
 }

@@ -182,6 +182,41 @@
                         @enderror
                         </section>
 
+                        <section class="col-12">
+                            <div class="form-group">
+                                <label for="">رنج سنی</label>
+                                <select name="age_range" id="" class="form-control form-control-sm">
+                                    @foreach ($age_range as $key => $value)
+                                        <option value="{{ $key }}" @if(old('age_range', $product->age_range) == $key) selected @endif>{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @error('age_range')
+                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                        @enderror
+                        </section>
+                        <section class="col-12">
+                            <div class="form-group">
+                                <label for="">جنسیت</label>
+                                <select name="gender" id="" class="form-control form-control-sm">
+                                    @foreach ($gender as $key => $value)
+                                        <option value="{{ $key }}" @if(old('gender', $product->gender) == $key) selected @endif>{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @error('gender')
+                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                        @enderror
+                        </section>
+
 
                         <section class="col-12">
                             <div class="form-group">

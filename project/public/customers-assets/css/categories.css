@@ -1,0 +1,21 @@
+body{
+    background-color: #f5e5ff;
+    background-image: none;
+}
+.category-body{
+    width: 100%;
+    min-height: 500px;
+    background-color: aliceblue;
+}
+.sub-category-body{
+    width: 100%;
+    min-height: 200px;
+}
+.container-lazyload-box-subcategory{
+    border-radius: 60px;
+    background-color: #ffffff;
+}
+.container-subcategory-items{
+    border-radius: 60px;
+    margin-top: 50px;
+}

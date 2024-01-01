@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Admin\Content;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Content\PostRequest;
-use App\Http\Services\Image\FileService;
-use App\Http\Services\Image\ImageService;
 use App\Models\Content\Post;
-use App\Models\Content\PostCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Models\Content\PostCategory;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Services\Image\FileService;
+use App\Http\Services\Image\ImageService;
+use App\Http\Requests\Admin\Content\PostRequest;
 
 class PostController extends Controller
 {
@@ -18,6 +19,7 @@ class PostController extends Controller
      */
     public function index()
     {
+
         $posts = Post::paginate(15);
 
         return view('admin.content.post.index', compact('posts'));
@@ -53,7 +55,7 @@ class PostController extends Controller
             }
             $inputs['image'] = $result;
         }
-        $inputs['author_id'] = 1;
+        $inputs['author_id'] = auth()->user()->id;
         $post = Post::create($inputs);
         return redirect()->route('admin.content.post.index')->with('swal-success', 'پست  جدید شما با موفقیت ثبت شد');
 
@@ -72,6 +74,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        if(!Gate::allows('update-post', $post)){
+            abort(403);
+        }
         $postCategories = PostCategory::all();
 
         return view('admin.content.post.edit', compact('post', 'postCategories'));
@@ -83,6 +88,7 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post, ImageService $imageService)
     {
+        
         $inputs = $request->all();
         //date fixed
         $realTimestampStart = substr($request->published_at, 0, 10);

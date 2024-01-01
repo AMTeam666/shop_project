@@ -38,6 +38,7 @@
                             <th>#</th>
                             <th>نام نقش	</th>
                             <th>دسترسی ها</th>
+                            <th>توضیحات</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                     </thead>
@@ -57,6 +58,9 @@
                                     @endforeach
                                 @endif
 
+                                </td>
+                                <td>
+                                    {{ $role->description }}
                                 </td>
                             <td class="width-22-rem text-left">
                                 <a href="{{ route('admin.user.role.permission-form', $role->id) }}" class="btn btn-success btn-sm"><i class="fa fa-user-graduate"></i> دسترسی ها</a>

@@ -27,7 +27,7 @@
             <section>
 				 <span class="ml-2 ml-md-4 position-relative">
 					 <span id="header-notification-toggle" class="pointer">
-					 <i class="far fa-bell"></i><sup class="badge badge-dark">4</sup>
+					 <i class="far fa-bell"></i><sup class="badge badge-dark">@if(!$unseenComments->count() == 0){{ $unseenComments->count() }}  @endif</sup>
 					 </span>
 					 <section id="header-notification" class="header-notification rounded">
 						 <section class="d-flex justify-content-between">
@@ -38,38 +38,23 @@
 						 </section>
 
 						 <ul class="list-group rounded px-0">
+							@foreach($unseenComments as $unseenComment)
+							@php
+							
+							$time =((new \Carbon\Carbon($unseenComment->created_at))->timestamp)
+		
+							@endphp
 							<li class="list-group-item list-group-item-action">
 								<section class="media">
 									<img class="notification-img" src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="avatar">
 									<section class="media-body pr-1">
-										<h5 class="notification-user">محمد هاشمی</h5>
-										<p class="notification-text">پیام تستی میباشد</p>
-										<p class="notification-time">30 دقیقه قبل</p>
+										<h5 class="notification-user">{{ $unseenComment->user->first_name . ' ' . $unseenComment->user->last_name }}</h5>
+										<p class="notification-text">{!! Str::limit($unseenComment->body, 20) !!}</p>
+										<p class="notification-time">{{ timeAgo($time) }}  قبل</p>
 									</section>
 								</section>
 							</li>
-
-							 <li class="list-group-item list-group-item-action">
-								<section class="media">
-									<img class="notification-img" src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="avatar">
-									<section class="media-body pr-1">
-										<h5 class="notification-user">محمد هاشمی</h5>
-										<p class="notification-text">پیام تستی میباشد</p>
-										<p class="notification-time">30 دقیقه قبل</p>
-									</section>
-								</section>
-							</li>
-
-							 <li class="list-group-item list-group-item-action">
-								<section class="media">
-									<img class="notification-img" src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="avatar">
-									<section class="media-body pr-1">
-										<h5 class="notification-user">محمد هاشمی</h5>
-										<p class="notification-text">پیام تستی میباشد</p>
-										<p class="notification-time">30 دقیقه قبل</p>
-									</section>
-								</section>
-							</li>
+							@endforeach
 						 </ul>
 					 </section>
 				 </span>

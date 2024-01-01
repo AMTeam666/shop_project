@@ -9,7 +9,7 @@
 
 <!-- start cart -->
 <section class="mb-4">
-    <section class="container-xxl" >
+    <section class="container-xxl bg-white cart-main-box" >
         <section class="row">
             <section class="col">
                 <!-- start vontent header -->
@@ -25,8 +25,8 @@
                 </section>
 
                 <section class="row mt-4">
-                    <section class="col-md-9 mb-3">
-                            <form action="" id="cart_items" method="post" class="content-wrapper bg-white p-3 rounded-2">
+                    <section class="mb-3">
+                            <form action="" id="cart_items" method="post" class="content-wrapper  p-3 rounded-2">
                                 @csrf
                                 @php
                                     $totalProductPrice = 0;
@@ -41,39 +41,34 @@
 
                             <section class="cart-item d-md-flex py-3">
                                 <section class="cart-img align-self-start flex-shrink-1">
-                                    <img src="{{ asset($cartItem->product->image['indexArray']['medium']) }}" alt="">
+                                    <img src="{{ asset($cartItem->product->image['indexArray']['large']) }}" alt="">
                                 </section>
                                 <section class="align-self-start w-100">
-                                    <p class="fw-bold">{{ $cartItem->product->name }}</p>
-                                    <p>
-                                        @if(!empty($cartItem->color))
-                                        <span style="background-color: {{ $cartItem->color->color }};" class="cart-product-selected-color me-1"></span> <span> {{ $cartItem->color->color_name }}</span>
-                                        @else
-                                        <span>رنگ منتخب وجود ندارد</span>
-                                        @endif
-                                    </p>
-                                    <p>
-                                        @if(!empty($cartItem->guarantee))
-                                        <i class="fa fa-shield-alt cart-product-selected-warranty me-1"></i> <span> {{ $cartItem->guarantee->name }}</span>
-                                        @else
-                                        <i class="fa fa-shield-alt cart-product-selected-warranty me-1"></i> <span> گارانتی ندارد</span>
-                                        @endif
-                                    </p>
-                                    <p><i class="fa fa-store-alt cart-product-selected-store me-1"></i> <span>کالا موجود در انبار</span></p>
+                                    <p class="fw-bold product-cart-title">{{ $cartItem->product->name }}</p>
+                                    <p class="product-cart-info"><i class="fa fa-store-alt cart-product-selected-warranty me-1"></i> <span> فروشنده : ای پی تویز </span></p>
+                                    <p class="product-cart-info"><i class="fas fa-city cart-product-selected-warranty me-1 "></i> <span>شهر : مشهد </span></p>
+                                    @if ($cartItem->product->marketable_number > 0)
+                                    <p class="product-cart-info"><i class="fa fa-shopping-basket cart-product-selected-store me-1 "></i> <span></span>کالا موجود در انبار </p> 
+                                    @else
+                                    <p class="product-cart-info"><i class="fa fa-shopping-basket cart-product-selected-store me-1 "></i> <span></span>کالا ناموجود</p> 
+                                    @endif
                                     <section>
-                                        <section class="cart-product-number d-inline-block ">
+                                        <section class="cart-total-product-number d-inline-block ">
                                             <button class="cart-number cart-number-down" type="button">-</button>
                                             <input class="number" name="number[{{ $cartItem->id }}]" data-product-price={{ $cartItem->cartItemProductPrice() }} data-product-discount={{ $cartItem->cartItemProductDiscount() }}  type="number" min="1" max="5" step="1" value="{{ $cartItem->number }}" readonly="readonly">
                                             <button class="cart-number cart-number-up" type="button">+</button>
                                         </section>
-                                        <a class="text-decoration-none ms-4 cart-delete" href="{{ route('customers.sales-process.remove-from-cart', $cartItem) }}"><i class="fa fa-trash-alt"></i> حذف از سبد</a>
+                                        <a class="remove-item-product text-decoration-none cart-delete" href="{{ route('customers.sales-process.remove-from-cart', $cartItem) }}"><i class="fa fa-trash-alt"></i> حذف از سبد</a>
                                     </section>
                                 </section>
-                                <section class="align-self-end flex-shrink-1">
+                                <section class=" cart-prices align-self-end flex-shrink-1">
                                     @if(!empty($cartItem->product->activeAmazingSale()))
+                                    <section class="text-muted old-price-text text-nowrap mb-1 text-center"> {{ priceFormat($cartItem->product->price ) }} تومان</section>
                                     <section class="cart-item-discount text-danger text-nowrap mb-1">تخفیف {{ priceFormat($cartItem->cartItemProductDiscount()) }}</section>
-                                    @endif
+                                    <section class="text-nowrap fw-bold">{{ priceFormat($cartItem->cartItemFinalPrice()) }} تومان</section>
+                                    @else
                                     <section class="text-nowrap fw-bold">{{ priceFormat($cartItem->cartItemProductPrice()) }} تومان</section>
+                                    @endif
                                 </section>
                             </section>
                             @endforeach
@@ -81,8 +76,8 @@
                         </form>
 
                     </section>
-                    <section class="col-md-3">
-                        <section class="content-wrapper bg-white p-3 rounded-2 cart-total-price">
+                    <section class="box-cart-item-total-price">
+                        <section class="content-wrapper  p-3 rounded-2 cart-total-price">
                             <section class="d-flex justify-content-between align-items-center">
                                 <p class="text-muted">قیمت کالاها ({{ $cartItems->count() }})</p>
                                 <p class="text-muted" id="total_product_price">{{ priceFormat($totalProductPrice) }} تومان</p>
@@ -104,7 +99,7 @@
 
 
                             <section class="">
-                                <button onclick="document.getElementById('cart_items').submit()"  class="btn btn-danger d-block">تکمیل فرآیند خرید</button>
+                                <button onclick="document.getElementById('cart_items').submit()"  class="btn btn-danger py-3 button-complete-order w-100">تکمیل فرآیند خرید</button>
                             </section>
                             @else
                             <h2>محصولی داخل سبد خرید شما نمیباشد</h2>
@@ -118,92 +113,6 @@
     </section>
 </section>
 <!-- end cart -->
-
-
-
-
-
-
-<section class="mb-4">
-    <section class="container-xxl" >
-        <section class="row">
-            <section class="col">
-                <section class="content-wrapper bg-white p-3 rounded-2">
-                    <!-- start vontent header -->
-                    <section class="content-header">
-                        <section class="d-flex justify-content-between align-items-center">
-                            <h2 class="content-header-title">
-                                <span>کالاهای مرتبط با سبد خرید شما</span>
-                            </h2>
-                            <section class="content-header-link">
-                                <!--<a href="#">مشاهده همه</a>-->
-                            </section>
-                        </section>
-                    </section>
-                    <!-- start vontent header -->
-                    <section class="lazyload-wrapper" >
-                        <section class="lazyload light-owl-nav owl-carousel owl-theme">
-
-
-                            @foreach ($relatedProducts as $relatedProduct)
-
-                            <section class="item">
-                                <section class="lazyload-item-wrapper">
-                                    <section class="product">
-                                        <section class="product-add-to-cart"><a href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="افزودن به سبد خرید"><i class="fa fa-cart-plus"></i></a></section>
-                                        @guest
-                                        <section class="product-add-to-favorite">
-                                            <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $relatedProduct) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه از علاقه مندی">
-                                                <i class="fa fa-heart"></i>
-                                            </button>
-                                        </section>
-                                        @endguest
-                                        @auth
-                                            @if ($relatedProduct->user->contains(auth()->user()->id))
-                                            <section class="product-add-to-favorite">
-                                                <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $relatedProduct) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="حذف از علاقه مندی">
-                                                    <i class="fa fa-heart text-danger"></i>
-                                                </button>
-                                            </section>
-                                            @else
-                                            <section class="product-add-to-favorite">
-                                                <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $relatedProduct) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه به علاقه مندی">
-                                                    <i class="fa fa-heart"></i>
-                                                </button>
-                                            </section>
-                                            @endif
-                                        @endauth
-                                           <a class="product-link" href="#">
-                                            <section class="product-image">
-                                                <img class="" src="{{ asset($relatedProduct->image['indexArray']['medium']) }}" alt="">
-                                            </section>
-                                            <section class="product-name"><h3>{{ $relatedProduct->name }}</h3></section>
-                                            <section class="product-price-wrapper">
-                                                <section class="product-price">{{ priceFormat($relatedProduct->price) }} تومان</section>
-                                            </section>
-                                            <section class="product-colors">
-                                                @foreach ($relatedProduct->colors()->get() as $color)
-                                                <section class="product-colors-item" style="background-color: {{ $color->color }};"></section>
-                                                @endforeach
-                                            </section>
-                                        </a>
-                                    </section>
-                                </section>
-                            </section>
-
-                            @endforeach
-
-                        </section>
-                    </section>
-                </section>
-            </section>
-        </section>
-    </section>
-</section>
-
-
-
-
 
 @endsection
 

@@ -59,13 +59,18 @@ class CartController extends Controller
 
             if(!isset($request->color))
             {
-                $request->color;         
+                $request->color = null;         
+            }
+
+            if(!isset($request->number))
+            {
+                $request->number = 1;
             }
 
             
             if(!isset($request->guarantee))
             {
-                $request->guarantee;           
+                $request->guarantee = null;           
             }
 
             foreach($cartItems as $cartItem)
@@ -76,7 +81,7 @@ class CartController extends Controller
                     {
                         $cartItem->update(['number' => $request->number]);
                     }
-                    return back();
+                    return back()->with('success','با موفقیت به سبد خرید افزوده شد');
                 }
             }
 
@@ -89,7 +94,7 @@ class CartController extends Controller
 
             CartItem::create($inputs);
 
-            return back();
+            return back()->with('success','با موفقیت به سبد خرید افزوده شد');
 
 
 
@@ -108,5 +113,22 @@ class CartController extends Controller
             return back();
         }
 
+    }
+
+    public function addAllCart()
+    {
+        foreach(auth()->user()->products as $product){
+            $inputs = [
+                'user_id' => auth()->user()->id,
+                'product_id' => $product->id,
+                'color_id' => null,
+                'guarantee_id' => null,
+                'number' => 1,
+            ];
+
+            $cartItem = CartItem::create($inputs);
+        }
+
+        return redirect()->route('customer.profile.favorite')->with('success', 'تمام علاقه مندی ها به سبد خرید افزوده شد');
     }
 }

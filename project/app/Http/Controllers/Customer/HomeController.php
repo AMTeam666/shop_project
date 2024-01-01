@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Content\Banner;
 use App\Models\Market\Product;
 use App\Http\Controllers\Controller;
+use App\Models\Market\ProductCategory;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -22,12 +23,76 @@ class HomeController extends Controller
         //brands query
         $brands = Brand::all();
 
+        //product categories
+        $categories = ProductCategory::all();
+
         //products query
         $mostVisitedProducts = Product::latest()->take(10)->get();
         $OfferProducts = Product::latest()->take(10)->get();
+        Auth::loginUsingId(3);
+        return view('customers.home', compact('slideShowImages', 'topBanners', 'middleBanners', 'bottomBanner', 'brands', 'mostVisitedProducts', 'OfferProducts', 'categories'));
+    }
 
-        Auth::loginUsingId(2);
-        return view('customers.home', compact('slideShowImages', 'topBanners', 'middleBanners', 'bottomBanner', 'brands', 'mostVisitedProducts', 'OfferProducts',));
+    public function search(Request $request)
+    {
+        //get brands
+        $brands = Brand::all();
+        //switch for set sort for filtering
+        switch ($request->sort) {
+            case "1":
+                $column = "created_at";
+                $direction = "DESC";
+                break;
+            case "2":
+                $column = "price";
+                $direction = "DESC";
+                break;
+            case "3":
+                $column = "price";
+                $direction = "ASC";
+                break;
+            case "4":
+                $column = "view";
+                $direction = "DESC";
+                break;
+            case "5":
+                $column = "sold_number";
+                $direction = "DESC";
+                break;
+            default:
+                $column = "created_at";
+                $direction = "ASC";
+        }
+        if ($request->search) {
+            $query = Product::where('name', 'LIKE', "%" . $request->search . "%")->orderBy($column, $direction);
+        } else {
+            $query = Product::orderBy($column, $direction);
+        }
+        $products = $request->max_price && $request->min_price ? $query->whereBetween('price', [$request->min_price, $request->max_price]) :
+            $query->when($request->min_price, function ($query) use ($request) {
+                $query->where('price', '>=', $request->min_price)->get();
+            })->when($request->max_price, function ($query) use ($request) {
+                $query->where('price', '<=', $request->max_price)->get();
+            })->when(!($request->min_price && $request->max_price), function ($query) {
+                $query->get();
+            });
+        $products = $products->when($request->brands, function () use ($request, $products) {
+            $products->whereIn('brand_id', $request->brands);
+        });
+        $products = $products->when($request->age_range, function () use ($request, $products) {
+            if($request->age_range == 5){
+                $products = $products->get();
+            }
+            $products->where('age_range', $request->age_range);
+        });
+        $products = $products->when($request->gender, function () use ($request, $products) {
+            if($request->gender == 3){
+                $products = $products->get();
+            }
+            $products->where('gender', $request->gender);
+        });
 
+        $products = $products->get();
+        return view('customers.search-show', compact('products', 'brands'));
     }
 }

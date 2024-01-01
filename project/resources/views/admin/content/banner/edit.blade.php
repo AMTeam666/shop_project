@@ -33,7 +33,7 @@
             <section>
                 <form action="{{ route('admin.content.banner.update', $banner->id) }}" method="POST" enctype="multipart/form-data" id="form">
                     @csrf
-                    {{ method_field('put') }}
+                    {{ method_field('patch') }}
                     <section class="row">
 
                         <section class="col-12 col-md-6">

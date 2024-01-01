@@ -43,6 +43,7 @@
                             <th>فعال سازی</th>
                             <th>وضعیت</th>
                             <th>نقش</th>
+                            <th>سطوح دسترسی</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                         </thead>
@@ -70,9 +71,27 @@
                                             @endif>
                                     </label>
                                 </td>
-                                <td>سوپر ادمین	</td>
-                                <td class="width-22-rem text-left">
-                                    <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> نقش</a>
+                                <td>
+                                    @if(empty($admin->roles()->get()->toArray()))
+                                        <span class="text-danger">برای این ادمین هیچ  نقشی تعریف نشده است.</span>
+                                    @else
+                                        @foreach($admin->roles as $role)
+                                    {{$role->name}}<br>
+                                        @endforeach
+                                    @endif
+                                </td>                                
+                                <td>
+                                    @if(empty($admin->permissions()->get()->toArray()))
+                                        <span class="text-danger">برای این ادمین هیچ سطح دسترسی تعریف نشده است.</span>
+                                    @else
+                                        @foreach($admin->permissions as $permission)
+                                    {{$permission->name}}<br>
+                                        @endforeach
+                                    @endif
+                                </td>                                
+                                    <td class="width-22-rem text-left">
+                                    <a href="{{ route('admin.user.admin-user.permissions', $admin) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> سطوح دسترسی</a>
+                                    <a href="{{ route('admin.user.admin-user.role', $admin) }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> نقش</a>
                                     <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
                                     <button class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
                                 </td>

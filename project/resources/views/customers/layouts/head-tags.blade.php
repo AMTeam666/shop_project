@@ -3,6 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="{{ asset('customers-assets/css/product.css') }}">
 <link rel="stylesheet" href="{{ asset('customers-assets/css/bootstrap/bootstrap-reboot.rtl.min.css') }}">
 <link rel="stylesheet" href="{{ asset('customers-assets/css/bootstrap/bootstrap.rtl.min.css') }}">
 <link rel="stylesheet" href="{{ asset('customers-assets/fontawesome/css/all.min.css') }}">
@@ -13,6 +14,9 @@
 <link rel="stylesheet" href="{{ asset('customers-assets/css/address.css') }}">
 <link rel="stylesheet" href="{{ asset('customers-assets/css/payment.css') }}">
 <link rel="stylesheet" href="{{ asset('customers-assets/css/filter.css') }}">
-<link rel="stylesheet" href="{{ asset('customers-assets/css/product.css') }}">
 <link rel="stylesheet" href="{{ asset('customers-assets/css/profile.css') }}">
 <link rel="stylesheet" href="{{ asset('customers-assets/css/login.css') }}">
+<link rel="stylesheet" href="{{ asset('customers-assets/css/profile-completion.css') }}">
+<link rel="stylesheet" href="{{ asset('customers-assets/css/categories.css') }}">
+
+

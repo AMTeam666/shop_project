@@ -1,25 +1,55 @@
+.main-body{
+    margin-top: 50px;
+}
+.body-product{
+    background-image: none;
+    background-color: #f5e5ff;
+}
+.product-main{
+    width: 100%;
+}
+.product-main-container{
+    background-color: #ffffff;
+    border-radius: 30px;
+    padding-top: 20px;
+}
+.product-gallery-container{
+    width: 70%;
+
+}
+.product-gallery-container .content-wrapper{
+box-shadow: none;
+
+}
 .product-gallery {
+
 
 }
 
+
 .product-gallery-selected-image {
+    width: 80%;
     overflow: hidden;
     padding-right: 2rem;
     padding-left: 2rem;
 }
 
 .product-gallery-selected-image img {
-    width: 100%;
+    margin: auto;
+    width: 90%;
     border-radius: 0.25rem;
+    display: block;
+
 }
 
 .product-gallery-thumbs {
+    width: 20%;
 
 }
 
 .product-gallery-thumb{
-    width: 4rem;
-    height: 4rem;
+    width: 6rem;
+    height: 6rem;
     cursor: pointer;
     padding: 0.3rem;
     border: 1px solid #efefef;
@@ -28,44 +58,128 @@
     display: inline-block;
 }
 
+.product-info-container{
 
+    width: 30%;
+    display: block;
+    height: 100%;
+
+
+}
+.product-info-container .content-wrapper{
+    box-shadow: none;
+    
+    }
 .product-info {
     color: #333333;
     font-size: 0.8rem;
+
+}
+.old-price-text{
+    text-decoration: line-through 2px solid gray;
+}
+.old-price-text span{
+    text-decoration: none;
+    display: inline-block;
 }
 
-.product-info-colors {
+/* .product-info-colors {
     width: 1.6rem;
     height: 1.6rem;
     border-radius: 50%;
     display: inline-block;
     margin-bottom: -0.3rem;
+} */
+.button-add-to-cart-container{
+    margin:15px 0;
 }
-
-
+.button-add-to-cart{
+    background-color: rgb(18, 172, 18);
+    color: #ffffff;
+    padding: 15px;
+    width: 100%;
+}
+.button-add-to-cart:hover{
+    background-color: rgb(21, 194, 21);
+    color: #ffffff;
+}
+.product-info-text{
+    font-size: .8rem;
+}
 .product-details {
+
+}
+.product-introduction-container{
+    width: 60%;
+    padding: 0 20px;
+    margin-left: 10px;
+    padding-bottom: 30px;
+    background-color: #ffe3cd;
+    border-radius: 15px;
+
 
 }
 
 .product-introduction {
     font-size: 0.9rem;
     line-height: 2rem;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 15px;
+
 }
 
+.product-features-container{
+    border-radius: 15px;
+
+    width: 40%;
+    background-color: #bfdce9;
+
+}
 .product-features {
+    margin: 15px;
+
+}
+.table-product-features{
+    border: 2px solid #2b2b2b;
+
+
 
 }
 
 .product-features table{
     font-size: 0.8rem;
-    background-color: #ffffdf;
-}
+    background-color: #ffffff;
 
+}
+.product-features table tr td{
+    padding: 10px;
+    border: 1px solid #c9c9c9 ;
+
+}
+.product-features table tr:nth-child(odd){
+    background-color: #d1e2e9;
+
+}
 .product-features table tr td:first-of-type{
     font-weight: bold;
     width: 15rem;
+    background-color: #005b83;
+    color: #fff;
+    border: 1px solid #004a6a ;
+    border-left: 2px solid #2b2b2b;
 }
 
+.product-tag{
+    display: inline-block;
+    text-decoration: none;
+    background-color: cornflowerblue;
+    color: #f7f7f7;
+    padding: 5px 20px;
+    margin: 5px;
+    border-radius: 5px;
+
+}
 .product-comments {
 
 }
@@ -81,6 +195,9 @@
 
 
 /*start comment*/
+.comments-container{
+    border-radius: 15px;
+}
 .product-comment {
     margin-bottom: 0.5rem;
     margin-top: 0.5rem;
@@ -115,14 +232,13 @@
 }
 
 
-.comment-add-button {
+/* .comment-add-button {
     display: block;
     width: 100%;
     text-align: center;
-    border-radius: 0.25rem;
-    border: 1px dashed #dedede;
-    color: #666666;
-    background-color: #f7f7f7;
+    border: 1px solid #dedede;
+    color: #ffffff;
+    background-color: #ca34be;
     font-size: 0.8rem;
     line-height: 4rem;
     padding-top: 0.3rem;
@@ -130,23 +246,27 @@
 }
 
 .comment-add-button:hover {
-    border: 1px dashed #cdcdcd;
-    color: #333333;
-    background-color: #efefef;
+    background-color: #a50073;
     text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
     transition: 0.4s;
 }
 
 .comment-add-wrapper .modal{
     z-index: 999999;
-}
+} */
 
+.comment-add-wrapper{
+    width: 50%;
+    margin: auto;
+}
 .comment-add-wrapper .modal-title {
     font-size: 0.9rem;
     text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
     color: #000000;
 }
-
+.button-sumbit-comment{
+    margin: auto;
+}
 .comment-add-wrapper .btn-close {
     font-size: 0.6rem;
 }
@@ -161,4 +281,70 @@
 
 .comment-add-wrapper .form-select-sm {
     font-size: 0.8rem;
+}
+.product-comment-vote i{
+    margin: 5px;
+}
+
+
+
+  
+  /* ------------according------------- */
+.accordion_add_comment {
+    display: block;
+    background-color: #228b22;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 10px;
+    width: 50%;
+    text-align: center;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    font-size: 20px;
+    margin: auto;
+  }
+  
+  /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+  .active_add_comment, .accordion_add_comment:hover {
+    background-color: #2eb62e;
+  }
+  
+  /* Style the accordion panel. Note: hidden by default */
+.panel_add_comment {
+    background-color: white;
+    max-height: 0;
+    padding: 0 10px;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+}
+
+.filter-form{
+    display: block;
+}
+.filter-form label{
+    display:block;
+    cursor: pointer;
+    padding: 5px;
+    margin:5px 0 ;
+    /* border: 1px solid red; */
+}
+.filter-form label:hover{
+    color: rgb(0, 73, 107);
+    transition: .5s;
+}
+
+.apply-filter{
+    width: 100%;
+    color: #ffffff;
+    background-color: #931a9d;
+    text-align: center;
+    border: none;
+    padding: 10px;
+
+}
+.apply-filter:hover{
+    background-color: #6d1375;
+    
+
 }

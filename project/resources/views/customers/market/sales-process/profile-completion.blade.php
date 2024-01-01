@@ -5,7 +5,13 @@
 @endsection
 
 @section('content')
-
+@if ($errors->any())
+<ul>
+    @foreach ($errors->all() as $error)
+    <li>{{ $error }}</li>
+    @endforeach
+</ul>
+@endif
     <!-- start cart -->
     <section class="mb-4">
         <section class="container-xxl" >
@@ -24,7 +30,7 @@
                     </section>
 
                     <section class="row mt-4">
-                        <section class="col-md-9">
+                        <section class="">
                             <form id="profile_completion" action="{{ route('customers.sales-process.profile-completion-update') }}" method="post" class="content-wrapper bg-white p-3 rounded-2 mb-4">
                                 @csrf
 
@@ -126,47 +132,8 @@
                             </form>
 
                         </section>
-                        <section class="col-md-3">
-                            <section class="content-wrapper bg-white p-3 rounded-2 cart-total-price">
-                                @php
-                                    $totalProductPrice = 0;
-                                    $totalDiscount = 0;
-                                @endphp
-
-                                @foreach($cartItems as $cartItem)
-                                    @php
-                                        $totalProductPrice += $cartItem->cartItemProductPrice() * $cartItem->number;
-                                        $totalDiscount += $cartItem->cartItemProductDiscount() * $cartItem->number;
-                                    @endphp
-                                @endforeach
-
-                                <section class="d-flex justify-content-between align-items-center">
-                                    <p class="text-muted">قیمت کالاها ({{ $cartItems->count() }})</p>
-                                    <p class="text-muted"><span  id="total_product_price">{{ priceFormat($totalProductPrice) }}</span> تومان</p>
-                                </section>
-
-                                @if($totalDiscount != 0)
-                                    <section class="d-flex justify-content-between align-items-center">
-                                        <p class="text-muted">تخفیف کالاها</p>
-                                        <p class="text-danger fw-bolder"><span id="total_discount">{{ priceFormat($totalDiscount) }}</span> تومان</p>
-                                    </section>
-                                @endif
-                                <section class="border-bottom mb-3"></section>
-                                <section class="d-flex justify-content-between align-items-center">
-                                    <p class="text-muted">جمع سبد خرید</p>
-                                    <p class="fw-bolder"><span id="total_price">{{ priceFormat($totalProductPrice - $totalDiscount ) }}</span> تومان</p>
-                                </section>
-
-                                <p class="my-3">
-                                    <i class="fa fa-info-circle me-1"></i>کاربر گرامی  خرید شما هنوز نهایی نشده است. برای ثبت سفارش و تکمیل خرید باید ابتدا آدرس خود را انتخاب کنید و سپس نحوه ارسال را انتخاب کنید. نحوه ارسال انتخابی شما محاسبه و به این مبلغ اضافه شده خواهد شد. و در نهایت پرداخت این سفارش صورت میگیرد.
-                                </p>
-
-
-                                <section class="">
-                                    <button type="button" onclick="document.getElementById('profile_completion').submit();" class="btn btn-danger d-block w-100">تکمیل فرآیند خرید</button>
-                                </section>
-
-                            </section>
+                        <section class="">
+                            <button type="button" onclick="document.getElementById('profile_completion').submit();" class="btn py-3 button-complete-profile-completion d-block w-100 ">تکمیل فرآیند خرید</button>
                         </section>
                     </section>
                 </section>
@@ -177,5 +144,7 @@
     <!-- end cart -->
 
 @endsection
+
+
 
 

@@ -1,6 +1,12 @@
 <aside id="sidebar" class="sidebar">
     <section class="sidebar-container">
         <section class="sidebar-wrapper">
+            <a href="{{ route('customers.home') }}" class="sidebar-link" target="_blank">
+                <i class="fas fa-shopping-cart"></i>
+                <span>فروشگاه</span>
+            </a>
+
+            <hr>
 
             <a href="{{ route('admin.home') }}" class="sidebar-link">
                 <i class="fas fa-home"></i>
@@ -16,15 +22,20 @@
                     <i class="fas fa-angle-left angle"></i>
                 </section>
                 <section class="sidebar-dropdown">
+                    @role('admin', 'super')
                     <a href="{{ route('admin.market.category.index') }}">دسته بندی</a>
-                    <a href="{{ route('admin.market.property.index') }}">فرم کالا</a>
                     <a href="{{ route('admin.market.brand.index') }}">برندها</a>
+                    @endrole
+                    @role('admin', 'salesman', 'super')
                     <a href="{{ route('admin.market.product.index') }}">کالاها</a>
-                    <a href="{{ route('admin.market.store.index') }}">انبار</a>
                     <a href="{{ route('admin.market.comment.index') }}">نظرات</a>
+                    @endrole
+                    @role('salesman')
+                    <a href="{{ route('admin.market.store.index') }}">انبار</a>
+                    @endrole
                 </section>
             </section>
-
+            @role('admin', 'salesman', 'super')
             <section class="sidebar-group-link">
                 <section class="sidebar-dropdown-toggle">
                     <i class="fas fa-chart-bar icon"></i>
@@ -40,7 +51,8 @@
                     <a href="{{ route('admin.market.order.all') }}">تمام سفارشات</a>
                 </section>
             </section>
-
+            @endrole
+            @role('admin', 'salesman' , 'super')
             <section class="sidebar-group-link">
                 <section class="sidebar-dropdown-toggle">
                     <i class="fas fa-chart-bar icon"></i>
@@ -54,7 +66,7 @@
                     <a href="{{ route('admin.market.payment.cash') }}">پرداخت در محل</a>
                 </section>
             </section>
-
+            @endrole
             <section class="sidebar-group-link">
                 <section class="sidebar-dropdown-toggle">
                     <i class="fas fa-chart-bar icon"></i>
@@ -62,9 +74,13 @@
                     <i class="fas fa-angle-left angle"></i>
                 </section>
                 <section class="sidebar-dropdown">
+                    @role('admin', 'super')
                     <a href="{{ route('admin.market.discount.copan') }}">کپن تخفیف</a>
                     <a href="{{ route('admin.market.discount.commonDiscount') }}">تخفیف عمومی</a>
+                    @endrole
+                    @role('salesman', 'super')
                     <a href="{{ route('admin.market.discount.amazingSale') }}">فروش شگفت انگیز</a>
+                    @endrole
                 </section>
             </section>
 
@@ -74,16 +90,19 @@
             </a>
 
 
-
+            @role('admin', 'super')
             <section class="sidebar-part-title">بخش محتوی</section>
             <a href="{{ route('admin.content.category.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>دسته بندی</span>
             </a>
+          
             <a href="{{ route('admin.content.post.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>پست ها</span>
             </a>
+           @endrole
+           @role('admin', 'super')
             <a href="{{ route('admin.content.comment.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>نظرات</span>
@@ -104,9 +123,9 @@
                 <i class="fas fa-bars"></i>
                 <span>بنر ها</span>
             </a>
+            @endrole
 
-
-
+            @role('super')
             <section class="sidebar-part-title">بخش کاربران</section>
             <a href="{{ route('admin.user.admin-user.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
@@ -116,14 +135,24 @@
                 <i class="fas fa-bars"></i>
                 <span>مشتریان</span>
             </a>
-            <a href="{{ route('admin.user.role.index') }}" class="sidebar-link">
+            <a href="{{ route('admin.user.sale.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
-                <span>سطوح دسترسی</span>
+                <span>فروشندگان</span>
             </a>
+            <section class="sidebar-group-link">
+                <section class="sidebar-dropdown-toggle">
+                    <i class="fas fa-chart-bar icon"></i>
+                    <span> سطوح دسترسی</span>
+                    <i class="fas fa-angle-left angle"></i>
+                </section>
+                <section class="sidebar-dropdown">
+                    <a href="{{ route('admin.user.role.index') }}">نقش ها</a>
+                    <a href="{{ route('admin.user.permission.index') }}"> دسترسی ها</a>
+                </section>
+            </section>
+            @endrole
 
-
-
-
+            @role('admin', 'super')
             <section class="sidebar-part-title">تیکت ها</section>
             <a href="{{ route('admin.ticket.category.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
@@ -165,7 +194,7 @@
                 <i class="fas fa-bars"></i>
                 <span>اعلامیه پیامکی</span>
             </a>
-
+             @endrole
 
 
             <section class="sidebar-part-title">تنظیمات</section>

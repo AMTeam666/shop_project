@@ -32,7 +32,7 @@
                 <section>
                     <form action="{{ route('admin.market.category.update', $productCategory->id) }}" method="post" enctype="multipart/form-data" id="form">
                         @csrf
-                        @method('PUT')
+                        @method('patch')
                         <section class="row">
 
                             <section class="col-12 col-md-6">

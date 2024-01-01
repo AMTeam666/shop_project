@@ -3,9 +3,14 @@
 namespace App\Models;
 
 use App\Models\Address;
+use App\Models\User\Permission;
 use App\Models\User\Role;
+use App\Models\Market\Order;
 use App\Models\Ticket\Ticket;
 use App\Models\Market\Payment;
+use App\Models\Market\CartItem;
+use App\Models\Market\Product;
+use App\Traits\Permissions\HasPermissionsTrait;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Ticket\TicketAdmin;
 use Laravel\Jetstream\HasProfilePhoto;
@@ -22,6 +27,7 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use HasPermissionsTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -86,11 +92,12 @@ class User extends Authenticatable
         return $this->hasMany(Ticket::class);
     }
 
-    public function roles()
-    {
+    public function permissions(){
+        return $this->belongsToMany(Permission::class);
+    }
+    public function roles(){
         return $this->belongsToMany(Role::class);
     }
-
     public function payments()
     {
         return $this->hasMany(Payment::class);
@@ -99,6 +106,16 @@ class User extends Authenticatable
     public function addresses()
     {
         return $this->hasMany(Address::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
     }
     
 }

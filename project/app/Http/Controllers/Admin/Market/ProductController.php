@@ -19,8 +19,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return view('admin.market.product.index', compact('products'));
+        $products = Product::orderBy('created_at', 'desc')->simplePaginate(15);
+        $age_range = Product::$age_range;
+        $gender = Product::$gender;
+        return view('admin.market.product.index', compact('products', 'age_range', 'gender'));
     }
 
     /**
@@ -31,7 +33,9 @@ class ProductController extends Controller
 
         $productsCategories = ProductCategory::all();
         $brands = Brand::all();
-        return view('admin.market.product.create', compact('productsCategories', 'brands'));
+        $age_range = Product::$age_range;
+        $gender = Product::$gender;
+        return view('admin.market.product.create', compact('productsCategories', 'brands', 'age_range', 'gender'));
 
     }
 
@@ -94,7 +98,9 @@ class ProductController extends Controller
     {
         $productCategories = ProductCategory::all();
         $brands = Brand::all();
-        return view('admin.market.product.edit', compact('productCategories', 'product', 'brands'));
+        $age_range = Product::$age_range;
+        $gender = Product::$gender;
+        return view('admin.market.product.edit', compact('productCategories', 'product', 'brands', 'age_range', 'gender'));
     }
 
     /**

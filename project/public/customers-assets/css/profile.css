@@ -1,12 +1,13 @@
 .order-wrapper {
 
 }
-
+ 
 .order-item {
     border-bottom: 1px solid #dedede;
     padding: 0.6rem 0rem;
-
 }
+
+
 
 .order-item:last-of-type {
     border: none;
@@ -20,17 +21,17 @@
 }
 
 .order-item-date {
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     margin-bottom: 0.4rem;
 }
 
 .order-item-id {
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     margin-bottom: 0.4rem;
 }
 
 .order-item-status {
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     margin-bottom: 0.4rem;
 }
 
@@ -72,9 +73,9 @@
     position: relative;
     border-radius: 0.25rem;
     border: 2px solid #dedede;
-    background-color: #fcfcfc;
-    font-size: 0.8rem;
-    color: #333333;
+    background-color: #eeeeee;
+    font-size: 1rem;
+    color: #3d3d3d;
     transition: 0.4s;
 }
 
@@ -83,25 +84,117 @@
     transition: 0.4s;
 }
 
-.my-address-wrapper a{
+/* .my-address-wrapper a{
     position: absolute;
     left: 0.4rem;
     top: 0.4rem;
     text-decoration: none;
     font-size: 0.7rem;
     margin: 0.2rem;
-    /*color: #00b5fe;*/
+    color: #00b5fe;
     color: #999999;
     background-color: inherit;
     transition: 0.4s;
 }
 
 .my-address-wrapper:hover a{
-    color: #00b3c3;
+    color:#ee00ff;
     transition: 0.4s;
+} */
+
+.button-edit-delete-address-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+
+}
+.button-edit-delete-address-container button{
+    display: block;
+    background-color: #ffffff;
+    border:1px solid #dfdfdf;
+}
+.button-edit-delete-address-container button:hover{
+    background-color: #0059ff;
+    color: #fff;
+    transition:.5s ;
+
+}
+.button-edit-delete-address-container a{
+    display: block;
+    background-color: #ffffff;
+    border:1px solid #dfdfdf;
+
+}
+.button-edit-delete-address-container a:nth-child(2):hover{
+    background-color: #ff0000;
+    color: #fff;
+    transition:.5s ;
+
+
 }
 
+.add-all-to-cart{
+    background-color: #00b026;
+}
+.add-all-to-cart:hover{
+    background-color: #03ca2e;
+}
 
+.button-add-remove-favorite-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    
+}
+.button-add-remove-favorite-container button{
+    background-color: #0059ff;
+    color: #ffffff;
+    margin: 0 5px;
+}
+.button-add-remove-favorite-container button:hover{
+    background-color: #0047ca;
+
+}
+.button-add-remove-favorite-container a:nth-child(2){
+    background-color: #ff0000;
+    color: #ffffff;
+    margin: 0 5px;
+
+}
+.button-add-remove-favorite-container a:nth-child(2):hover{
+    background-color: #c20000;
+    color: #ffffff;
+}
+.button-add-all-favorite-container{
+    display: flex;
+    flex-direction: column;
+}
+.button-add-all-favorite-container button{
+    background-color: #00c15b;
+    color: #ffffff;
+    margin: 0 5px;
+}
+.button-add-all-favorite-container button:hover{
+    background-color: #009646;
+    color: #ffffff;
+
+}
+.button-pay-order-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.button-pay-order-container button{
+    display: block;
+    background-color: #ffffff;
+    border:1px solid #dfdfdf;
+}
+.button-pay-order-container button:hover{
+    background-color: #0059ff;
+    color: #fff;
+    transition:.5s ;
+
+}
 .field-title {
     font-size: 0.9rem;
     font-weight: bold;
@@ -113,3 +206,54 @@
     line-height: 1.6rem;
 
 }
+
+
+/* --------------------------my-profile-------------------------------- */
+.main-profile-container{
+    margin: 60px auto 60px auto;
+}
+.sidebar-profile-background{
+    background-color: #0054a5;
+    color: #ffffff;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+
+
+}
+
+.main-profile-info{
+    border-radius: 30px;
+
+}
+.sidebar-nav-on{
+    background-color: #b95bc0;
+}
+.edit-profile-info{
+    background-color: #0077ff;
+    color: #ffffff;
+}
+.edit-profile-info:hover{
+    background-color: #004797;
+    color: #ffffff;
+}
+.edit-address{
+    color: #04315c;
+}
+
+.edit-address:hover{
+    color:#ee00ff
+}
+.remove-item-favorite{
+    background-color: #ff0000;
+    padding: 5px;
+    color: #ffffff;
+    border-radius:5px ;
+}
+.remove-item-favorite:hover{
+    background-color: #d60000;
+
+    color: #ffffff;
+
+}
+
+

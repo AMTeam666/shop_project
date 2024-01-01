@@ -17,10 +17,13 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $postCategories = PostCategory::paginate(15);
+        
+    
+            $postCategories = PostCategory::paginate(15);
 
-        return view('admin.content.category.index', compact('postCategories'));
-
+            return view('admin.content.category.index', compact('postCategories'));
+    
+      
     }
 
     /**

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CashPayment extends Model
 {
     use HasFactory;
-
+    protected $guarded = ['id'];
     
     public function payments()
     {

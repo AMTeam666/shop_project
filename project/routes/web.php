@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ShowCategories;
 use App\Http\Requests\Admin\Market\StoreRequest;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Admin\User\RoleController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Admin\Market\StoreController;
 use App\Http\Controllers\Admin\Notify\EmailController;
 use App\Http\Controllers\Admin\Ticket\TicketController;
 use App\Http\Controllers\Admin\User\CustomerController;
+use App\Http\Controllers\Admin\user\SalesManController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\Content\BannerController;
 use App\Http\Controllers\Admin\Market\CommentController;
@@ -32,7 +34,9 @@ use App\Http\Controllers\Admin\User\PermissionController;
 use App\Http\Controllers\Admin\Market\GuaranteeController;
 use App\Http\Controllers\Admin\Notify\EmailFileController;
 use App\Http\Controllers\Admin\Ticket\TicketAdminController;
+use App\Http\Controllers\Customer\Profile\ProfileController;
 use App\Http\Controllers\admin\Market\ProductColorController;
+use App\Http\Controllers\Customer\Profile\FavoriteController;
 use App\Http\Controllers\Admin\Market\PropertyValueController;
 use App\Http\Controllers\Customer\SalesProcess\CartController;
 use App\Http\Controllers\Admin\Ticket\TicketCategoryController;
@@ -41,9 +45,15 @@ use App\Http\Controllers\Auth\Customers\LoginRegisterComtroller;
 use App\Http\Controllers\Auth\Customers\LoginRegisterController;
 use App\Http\Controllers\Customer\SalesProcess\AddressController;
 use App\Http\Controllers\Customer\SalesProcess\ProfileCompletion;
+use App\Http\Controllers\Customer\SalesMan\RegisterFormController;
+use App\Http\Controllers\Customer\SalesMan\SalesManRegisterController;
+use App\Http\Controllers\Customer\Profile\OrderController as ProfileOrderController;
 use App\Http\Controllers\Admin\Content\CommentController as ContentCommentController;
 use App\Http\Controllers\Admin\Content\CategoryController as ContentCategoryController;
+use App\Http\Controllers\Customer\Profile\TicketController as CustomerTicketController;
 use App\Http\Controllers\Customer\Market\ProductController as CustomerProductController;
+use App\Http\Controllers\Customer\Profile\AddressController as ProfileAddressController;
+use App\Http\Controllers\Customer\SalesProcess\PaymentController as CustomerPaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,8 +85,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             Route::get('/edit/{productCategory}', [CategoryController::class, 'edit'])->name('admin.market.category.edit');
             Route::patch('/update/{productCategory}', [CategoryController::class, 'update'])->name('admin.market.category.update');
             Route::delete('/destroy/{category}', [CategoryController::class, 'destroy'])->name('admin.market.category.destroy');
-            Route::get('/status/{category}', [CategoryController::class, 'status'])
-                ->name('admin.market.category.status');
+            Route::get('/status/{category}', [CategoryController::class, 'status'])->name('admin.market.category.status');
             Route::get('/show_in_menu/{category}', [CategoryController::class, 'showMenu'])->name('admin.market.category.show_menu');
         });
 
@@ -322,10 +331,12 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             Route::get('/edit/{admin}', [AdminUserController::class, 'edit'])->name('admin.user.admin-user.edit');
             Route::patch('/update/{admin}', [AdminUserController::class, 'update'])->name('admin.user.admin-user.update');
             Route::delete('/destroy/{user}', [AdminUserController::class, 'destroy'])->name('admin.user.admin-user.destroy');
-            Route::get('/status/{user}', [AdminUserController::class, 'status'])
-                ->name('admin.user.admin-user.status');
-            Route::get('/activation/{user}', [AdminUserController::class, 'activation'])
-                ->name('admin.user.admin-user.activation');
+            Route::get('/status/{user}', [AdminUserController::class, 'status'])->name('admin.user.admin-user.status');
+            Route::get('/activation/{user}', [AdminUserController::class, 'activation'])->name('admin.user.admin-user.activation');
+            Route::get('/role/{admin}', [AdminUserController::class, 'role'])->name('admin.user.admin-user.role');
+            Route::post('/role/{admin}/store', [AdminUserController::class, 'roleStore'])->name('admin.user.admin-user.role.store');
+            Route::get('/permissions/{admin}', [AdminUserController::class, 'permissions'])->name('admin.user.admin-user.permissions');
+            Route::post('/permissions/{admin}/store', [AdminUserController::class, 'permissionsStore'])->name('admin.user.admin-user.permissions.store');
         });
 
         //customer
@@ -340,6 +351,18 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
                 ->name('admin.user.customer.status');
             Route::get('/activation/{user}', [CustomerController::class, 'activation'])
                 ->name('admin.user.customer.activation');
+        });
+
+        //salesman
+        Route::prefix('salesman')->group(function () {
+            Route::get('/', [SalesManController::class, 'index'])->name('admin.user.sale.index');
+            Route::get('/create', [SalesManController::class, 'create'])->name('admin.user.sale.create');
+            Route::post('/store', [SalesManController::class, 'store'])->name('admin.user.sale.store');
+            Route::get('/edit/{user}', [SalesManController::class, 'edit'])->name('admin.user.sale.edit');
+            Route::patch('/update/{user}', [SalesManController::class, 'update'])->name('admin.user.sale.update');
+            Route::delete('/destroy/{user}', [SalesManController::class, 'destroy'])->name('admin.user.sale.destroy');
+            Route::get('/status/{user}', [SalesManController::class, 'status'])->name('admin.user.sale.status');
+            Route::get('/activation/{user}', [SalesManController::class, 'activation'])->name('admin.user.sale.activation');
         });
 
         //role
@@ -360,9 +383,9 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             Route::get('/', [PermissionController::class, 'index'])->name('admin.user.permission.index');
             Route::get('/create', [PermissionController::class, 'create'])->name('admin.user.permission.create');
             Route::post('/store', [PermissionController::class, 'store'])->name('admin.user.permission.store');
-            Route::get('/edit/{id}', [PermissionController::class, 'edit'])->name('admin.user.permission.edit');
-            Route::put('/update/{id}', [PermissionController::class, 'update'])->name('admin.user.permission.update');
-            Route::delete('/destroy/{id}', [PermissionController::class, 'destroy'])->name('admin.user.permission.destroy');
+            Route::get('/edit/{permission}', [PermissionController::class, 'edit'])->name('admin.user.permission.edit');
+            Route::patch('/update/{permission}', [PermissionController::class, 'update'])->name('admin.user.permission.update');
+            Route::delete('/destroy/{permission}', [PermissionController::class, 'destroy'])->name('admin.user.permission.destroy');
         });
     });
 
@@ -473,12 +496,29 @@ Route::namespace('Auth')->group(function () {
 
 
 Route::get('/', [HomeController::class, 'home'])->name('customers.home');
+Route::get('/search', [HomeController::class, 'search'])->name('customers.search');
+
+// product CATEGORY 
+Route::namespace('category')->group(function () {
+    Route::get('/category/{category:slug}', [ShowCategories::class, 'show'])->name('customers.category.show');
+});
+
+
+Route::namespace('SalesMan')->group(function () {
+    Route::get('/salesman', [SalesManRegisterController::class, 'registerForm'])->name('salesman.register-form');
+    Route::middleware('throttle:customers-login-register-limiter')->post('/login-register', [SalesManRegisterController::class, 'loginRegister'])->name('salesman.login-register');
+    Route::get('login-confirm/{token}', [SalesManRegisterController::class, 'loginConfirmForm'])->name('salesman.login-confirm-form');
+    Route::middleware('throttle:customers-login-confirm-limiter')->post('/login-confirm/{token}', [SalesManRegisterController::class, 'loginConfirm'])->name('salesman.login-confirm');
+    Route::middleware('throttle:customers-resend-otp-limiter')->get('/login-resend-otp/{token}', [SalesManRegisterController::class, 'loginResendOtp'])->name('salesman.login-resend-otp');
+   
+});
 
 Route::namespace('SalesProcess')->group(function () {
 
     Route::get('/cart', [CartController::class, 'showCart'])->name('customers.sales-process.show');
     Route::post('/cart', [CartController::class, 'updateCart'])->name('customers.sales-process.update');
     Route::post('/add-to-cart/{product:slug}', [CartController::class, 'addToCart'])->name('customers.sales-process.add-to-cart');
+    Route::get('/add-all-to-cart', [CartController::class, 'addAllCart'])->name('customers.sales-process.add-all-to-cart');
     Route::get('/remove-from-cart/{cartItem}', [CartController::class, 'removeFromCart'])->name('customers.sales-process.remove-from-cart');
 
     //profile completion
@@ -491,6 +531,13 @@ Route::namespace('SalesProcess')->group(function () {
         Route::post('/add-address', [AddressController::class, 'addAddress'])->name('customers.sales-process.add-address');
         Route::patch('/update-address/{address}', [AddressController::class, 'updateAddress'])->name('customer.sales-process.update-address');
         Route::get('/get-cities/{province}', [AddressController::class, 'getCities'])->name('customer.sales-process.get-cities');
+        Route::post('/chose-address-and-delivery', [AddressController::class, 'choseAddressAndDelivery'])->name('customers.sales-process.chose-address-and-delivery');
+
+        //payment
+        Route::get('/payment', [CustomerPaymentController::class, 'show'])->name('customer.sales-process.show-payment');
+        Route::post('/copan-discount', [CustomerPaymentController::class, 'copanDiscount'])->name('customer.sales-process.copan-discount');
+        Route::post('/payment-submit', [CustomerPaymentController::class, 'paymentSubmit'])->name('customer.sales-process.payment-submit');
+
     });
 });
 
@@ -499,6 +546,34 @@ Route::namespace('Market')->group(function () {
     Route::get('/product/{product:slug}', [CustomerProductController::class, 'product'])->name('customer.market.product');
     Route::post('/add-comment/product/{product:slug}', [CustomerProductController::class, 'addComment'])->name('customer.market.add-comment');
     Route::get('/add-to-favorite/product/{product:slug}', [CustomerProductController::class, 'addToFavorite'])->name('customer.market.add-to-favorite');
+});
+
+Route::namespace('Profile')->group(function () {
+
+    Route::get('/orders', [ProfileOrderController::class, 'showOrders'])->name('customer.profile.orders');
+
+    //favorite
+    Route::get('/favorite', [FavoriteController::class, 'favoriteShow'])->name('customer.profile.favorite');
+    Route::get('/favorite/delete/{product}', [FavoriteController::class, 'deleteFavorite'])->name('customer.profile.favorite.delete');
+
+    //address
+    Route::get('/address', [ProfileAddressController::class, 'showAddress'])->name('customer.profile.address');
+    Route::get('/address/delete/{address}', [ProfileAddressController::class, 'deleteAddress'])->name('customer.profile.address.delete');
+
+    //profile
+    Route::get('/profile', [ProfileController::class, 'showProfile'])->name('customer.profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('customer.profile.edit');
+    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('customer.profile.update');
+
+    //ticket
+    Route::get('/my-tickets', [CustomerTicketController::class, 'index'])->name('customer.profile.my-tickets');
+    Route::get('/my-tickets/show/{ticket}', [CustomerTicketController::class, 'show'])->name('customer.profile.my-tickets.show');
+    Route::get('/my-tickets/change/{ticket}', [CustomerTicketController::class, 'change'])->name('customer.profile.my-tickets.change');
+    Route::post('my-tickets/answer/{ticket}', [CustomerTicketController::class, 'answer'])->name('customer.profile.my-tickets.answer');
+    Route::get('/my-tickets/create/', [CustomerTicketController::class, 'create'])->name('customer.profile.my-tickets.create');
+    Route::post('/my-tickets/store', [CustomerTicketController::class, 'store'])->name('customer.profile.my-tickets.store');
+
+
 });
 
 
