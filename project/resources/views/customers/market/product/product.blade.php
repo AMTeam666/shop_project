@@ -1,4 +1,4 @@
-@extends('customers.layouts.master-one-col')
+@extends('customers.layouts.master-two-col')
 
 @section('body-class', 'body-product')
 
@@ -8,6 +8,16 @@
 
 @section('content')
 
+@if(session('error'))
+<div class="alert alert-seccess">
+    {{ session('error') }}
+</div>
+@endif
+@if(session('success'))
+<div class="alert alert-danger">
+    {{ session('success') }}
+</div>
+@endif
 <!-- start cart -->
 <section class="mb-4 product-main">
     <section class="container-xxl product-main-container">
@@ -29,8 +39,8 @@
                             </section>
                             <section class="my-4">
                                 <p><i class="fa fa-store-alt cart-product-selected-warranty me-1"></i> <span> فروشنده :
-                                        ای پی تویز </span></p>
-                                <p class="border-bottom border-secondary"><i class="fas fa-city cart-product-selected-warranty me-1 "></i> <span>شهر : مشهد
+                                        {{ $product->store->store_name }} </span></p>
+                                <p class="border-bottom border-secondary"><i class="fas fa-city cart-product-selected-warranty me-1 "></i> <span>شهر : {{ $product->store->addresses->first()->city->name }}
                                     </span></p>
                                 <p><i class="fa fa-shopping-basket cart-product-selected-store me-1 "></i> <span>
                                         @if ($product->marketable_number > 0)
@@ -70,14 +80,17 @@
                             </section>
                             <section>
                                 <section class="cart-product-number d-inline-block ">
+                                    <form action="{{ route('customers.sales-process.add-to-cart', $product) }}" method="POST">
                                     <button class="cart-number-down" type="button">-</button>
-                                    <input class="" type="number" min="1" max="5" step="1" value="1" readonly="readonly">
+                                    <input class="" name="number" type="number" min="1" max="5" step="1" value="1" readonly="readonly">
                                     <button class="cart-number-up" type="button">+</button>
                                 </section>
                             </section>
                             <section class="button-add-to-cart-container">
-                                <button id="next-level" class="btn d-block button-add-to-cart">افزودن به سبد
-                                    خرید</button>
+                              
+                                    @csrf
+                                <button type="submit" class="btn d-block button-add-to-cart">افزودن به سبد خرید</button>
+                                </form>
                             </section>
                             <p>
                                 @guest
@@ -581,4 +594,5 @@
     }
 
 </script>
+
 @endsection

@@ -155,7 +155,7 @@ class AdminUserController extends Controller
         $request->validate([
             'roles' => 'required|exists:roles,id|array',
         ]);
-
+        dd($request->roles);
         $admin->roles()->sync($request->roles);
         return redirect()->route('admin.user.admin-user.index')->with('swal-success', 'نقش ها با موفقیت ثبت شد');
 

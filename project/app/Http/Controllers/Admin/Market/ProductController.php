@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Admin\Market;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Market\ProductRequest;
-use App\Http\Services\Image\ImageService;
 use App\Models\Market\Brand;
-use App\Models\Market\Product;
-use App\Models\Market\ProductCategory;
-use App\Models\Market\ProductMeta;
 use Illuminate\Http\Request;
+use App\Models\Market\Product;
+use App\Models\Market\ProductMeta;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Market\ProductCategory;
+use App\Http\Services\Image\ImageService;
+use App\Http\Requests\Admin\Market\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -19,7 +20,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('created_at', 'desc')->simplePaginate(15);
+        $user = Auth::user();
+        $products = Product::where('user_id', $user->id)->orderBy('created_at', 'desc')->simplePaginate(15);
         $age_range = Product::$age_range;
         $gender = Product::$gender;
         return view('admin.market.product.index', compact('products', 'age_range', 'gender'));
@@ -30,7 +32,6 @@ class ProductController extends Controller
      */
     public function create()
     {
-
         $productsCategories = ProductCategory::all();
         $brands = Brand::all();
         $age_range = Product::$age_range;
@@ -45,7 +46,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request, ImageService $imageService)
     {
         $inputs = $request->all();
-
+        $inputs['user_id'] = auth()->user()->id;
         //date fixed
         $realTimestampStart = substr($request->published_at, 0, 10);
         $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
@@ -63,8 +64,6 @@ class ProductController extends Controller
             $inputs['image'] = $result;
 
         }
-
-        DB::transaction(function () use($request, $inputs) {
             $product = Product::create($inputs);
 
             $metas = array_combine($request->meta_key, $request->meta_value);
@@ -77,7 +76,6 @@ class ProductController extends Controller
                 ]);
 
             }
-        });
 
 
         return redirect()->route('admin.market.product.index')->with('swal-success','دسته بندی جدید شما با موفقیت ساخته شد');

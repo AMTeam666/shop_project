@@ -39,10 +39,10 @@ class CartItem extends Model
     //product price + color price + guarantee price 
     public function cartItemProductPrice()
     {
-        $guaranteePriceIncrease = empty($this->guarantee_id) ? 0 : $this->guarantee->price_increase;
-        $colorPriceIncrease = empty($this->color_id) ? 0 : $this->color->price_increase;
+        // $guaranteePriceIncrease = empty($this->guarantee_id) ? 0 : $this->guarantee->price_increase;
+        // $colorPriceIncrease = empty($this->color_id) ? 0 : $this->color->price_increase;
 
-        return $this->product->price + $guaranteePriceIncrease + $colorPriceIncrease ;
+        return $this->product->price ;
     }
 
     // product price * (discount percentage / 100)

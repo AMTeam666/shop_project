@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     @include('customers.layouts.head-tags')
-    @yield('head-tag')
+    @yield('head-tags')
 </head>
 <body>
 
@@ -26,5 +26,10 @@
 
     @include('customers.layouts.script')
     @yield('script')
+
+
+
+    @include('admin.alerts.sweetalert.success')
+    @include('admin.alerts.sweetalert.error')
 </body>
 </html>

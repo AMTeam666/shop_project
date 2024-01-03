@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use App\Models\Content\Comment;
 use App\Models\Market\CartItem;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +25,9 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('admin.layouts.header', function ($view) {
             $view->with('unseenComments', Comment::where('seen', 0)->get());
+        });
+        view()->composer('admin.layouts.header', function ($view) {
+            $view->with('unseenUsers', User::where('seen', 0)->get());
         });
 
         view()->composer('customers.layouts.header', function($view){

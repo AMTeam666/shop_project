@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->bigInteger('card_number')->nullable()->after('user_type')->unique();
-            $table->text('accepted_photo_path')->nullable()->comment('تایید مدارک هویتی با عکس چهره خود فرد')->after('profile_photo_path');
+            $table->tinyInteger('seen')->default(0)->comment('0 => unseen, 1 => seen');
         });
     }
 

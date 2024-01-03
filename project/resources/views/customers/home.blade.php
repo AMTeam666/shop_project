@@ -247,6 +247,49 @@
         </section>
         <!-- end brand part-->
 
+        <section class="mb-3 pt-3">
+            <section class="container-xxl" >
+                <section class="row">
+                    <section class="col">
+                        <section class="content-wrapper p-3 top-category-box container-product-box">
+                            <!-- start vontent header -->
+                            <section class="content-header">
+                                <section class="">
+                                    <h2 class="content-header-title text-center">
+                                        <span class="">محتوی سایت</span>
+                                    </h2>
+                                </section>
+                            </section>
+                            <section class="container-main-content">
+                                <a href="{{ route('customer.content.cartoon.index') }}">
+                                    <section class="main-cartoons">
+                                        <img src="{{ asset('customers-assets/images/main-content/cartoons/cartoons.jpg') }}" alt="انمیشین ها">
+                                        <div class="aside-cartoons">
+                                            <h1 class="d-block">انمیشین ها</h1>
+                                            <p>مجموعه انمیشین های جذاب و دیدنی</p>
+                                        </div>
+                                    </section>
+                                </a>
+                                <a href="{{ route('customer.content.posts.index') }}">
+                                    <section class="main-posts">
+                                        <img src="{{ asset('customers-assets/images/main-content/posts/content.jpg') }}" alt="مقاله ها">
+                                        <div class="aside-posts">
+                                            <h1 class="d-block">مقاله ها</h1>
+                                            <p>مقاله های کاربردی و جالب</p>
+                                        </div>
+                                    </section>
+                                </a>
+                                <a href="#">
+                                    <section class="main-learning">
+                                        <img src="{{ asset('customers-assets/images/main-content/learning/learning.jpg') }}" alt="آموزش ها">
+                                        <div class="aside-learning">
+                                            <h1 class="d-block">ویدیو های آموزشی</h1>
+                                            <p>ویدیو های آنباکینگ و آموزش اسباب بازی ها</p>
+                                        </div>
+                                    </section>
+                                </a>
+                            </section>
+
 
     <section class="position-fixed p-4 flex-row-reverse" style="z-index: -1; right: 0; top: 3rem; width: 26rem; max-width: 80%;">
     
@@ -261,7 +304,7 @@
                 <strong class="ml-auto">
                     خب کونی خان محترم .. الان میزنی علاقه مندی ها من اینو بزارمش تو کص بیبیت ؟؟
                     <br>
-                    <a href="{{ route('auth.customers.login-register-form') }}" class="text-dark">
+                    <a href="{{ route('auth.customer.register-form') }}" class="text-dark">
                         بزن رو این تا بدونم کدون کونی هستی
                     </a>
                 </strong>             

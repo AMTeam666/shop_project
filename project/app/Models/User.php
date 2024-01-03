@@ -3,20 +3,21 @@
 namespace App\Models;
 
 use App\Models\Address;
-use App\Models\User\Permission;
 use App\Models\User\Role;
+use App\Models\Content\Post;
 use App\Models\Market\Order;
 use App\Models\Ticket\Ticket;
 use App\Models\Market\Payment;
-use App\Models\Market\CartItem;
 use App\Models\Market\Product;
-use App\Traits\Permissions\HasPermissionsTrait;
+use App\Models\Market\CartItem;
+use App\Models\User\Permission;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Ticket\TicketAdmin;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\Permissions\HasPermissionsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -47,6 +48,8 @@ class User extends Authenticatable
         'mobile_verified_at',
         'email_verified_at',
         'national_code',
+        'profile_photo_path',
+        'store_name',
     ];
 
     /**
@@ -117,5 +120,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Product::class);
     }
-    
+    public function posts(){
+        return $this->hasMany(Post::class);
+    }
 }

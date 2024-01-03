@@ -681,13 +681,16 @@ body {
 /*
     start brand lazy load
 */
+.container-brands{
+    background-color: #b7d3d2;
 
+}
 .brand-part {
     width: 100%;
 }
 
 .brand-part section{
-    background-color: #b7d3d2;
+
     border-radius: 60px;
     margin-bottom: 10px;
 }

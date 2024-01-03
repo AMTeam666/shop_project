@@ -17,7 +17,7 @@
                     <img src="{{ asset('customer-assets/images/logo/4.png') }}" alt="">
                 </section>
                 <section class="login-title mb-2">
-                    <a href="{{ route('auth.customers.login-register-form') }}">
+                    <a href="{{ route('auth.customer.register-form') }}">
                         <i class="fa fa-arrow-right"></i>
                     </a>
                 </section>

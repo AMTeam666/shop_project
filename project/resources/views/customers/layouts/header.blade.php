@@ -49,7 +49,7 @@
 
 
                         @guest
-                            <a href="{{ route('auth.customers.login-register-form') }}" class="btn btn-link text-decoration-none text-dark profile-button">
+                            <a href="{{ route('auth.customer.register-form') }}" class="btn btn-link text-decoration-none text-dark profile-button">
                                 <i class="fa fa-user-lock"></i>
                             </a>
                         @endguest
@@ -817,7 +817,7 @@
                     <section class="navbar-item nav-item-3"><a href="#">آمازون من</a></section>
                     <section class="navbar-item nav-item-4"><a href="#">آمازون پلاس</a></section>
                     <section class="navbar-item nav-item-5"><a href="#">درباره ما</a></section>
-                    <section class="navbar-item nav-item-6"><a href="{{ route('salesman.register-form') }}">فروشنده شوید</a></section>
+                    <section class="navbar-item nav-item-6"><a href="{{ route('seller.form') }}">فروشنده شوید</a></section>
                     <section class="navbar-item nav-item-7"><a href="#">فرصت های شغلی</a></section>
 
                 </section>

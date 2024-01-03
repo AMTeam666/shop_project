@@ -37,7 +37,6 @@
                         <tr>
                             <th>#</th>
                             <th>عنوان پست</th>
-                            <th>دسته</th>
                             <th>تصویر</th>
                             <th>وضعیت</th>
                             <th>امکان درج کامنت</th>
@@ -50,7 +49,6 @@
                             <tr>
                                 <th>{{ $key += 1 }}</th>
                                 <td>{{ $post->title }}</td>
-                                <td>{{ $post->postCategory->name }}</td>
                                 <td>
                                     <img src="{{ asset($post->image['indexArray'][$post->image['currentImage']] ) }}" alt="" width="100" height="50">
                                 </td>

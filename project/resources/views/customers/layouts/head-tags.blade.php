@@ -3,6 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="{{ asset('admin-assets/sweetalert/sweetalert2.css') }}">
 <link rel="stylesheet" href="{{ asset('customers-assets/css/product.css') }}">
 <link rel="stylesheet" href="{{ asset('customers-assets/css/bootstrap/bootstrap-reboot.rtl.min.css') }}">
 <link rel="stylesheet" href="{{ asset('customers-assets/css/bootstrap/bootstrap.rtl.min.css') }}">
@@ -18,5 +19,10 @@
 <link rel="stylesheet" href="{{ asset('customers-assets/css/login.css') }}">
 <link rel="stylesheet" href="{{ asset('customers-assets/css/profile-completion.css') }}">
 <link rel="stylesheet" href="{{ asset('customers-assets/css/categories.css') }}">
+<link rel="stylesheet" href="{{ asset('customers-assets/css/contents-index.css') }}">
+<link rel="stylesheet" href="{{ asset('customers-assets/css/contents-cartoons.css') }}">
+<link rel="stylesheet" href="{{ asset('customers-assets/css/contents-posts.css') }}">
+
+
 
 

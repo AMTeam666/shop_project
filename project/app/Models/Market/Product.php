@@ -37,6 +37,7 @@ class Product extends Model
         'brand_id',
         'category_id',
         'published_at',
+        'user_id',
     ];
 
     public function sluggable(): array
@@ -48,16 +49,16 @@ class Product extends Model
         ];
     }
     public static $age_range = [
-        0   =>  ' (تا یک سال)نوزاد',
-        1   =>  '1 تا 3 سال',
-        2   =>  '3 تا 5 سال',
-        3   =>  '5 تا 8 سال',
-        4   =>  '8 تا 12 سال',
-        5 => 'تمامی سنین'
+        1   =>  ' (تا یک سال)نوزاد',
+        2   =>  '1 تا 3 سال',
+        3   =>  '3 تا 5 سال',
+        4   =>  '5 تا 8 سال',
+        5   =>  '8 تا 12 سال',
+        6 => 'تمامی سنین'
     ]; 
     public static $gender = [
-        0   =>  'دخترانه',
-        1   =>  'پسرانه',
+        1   =>  'دخترانه',
+        2   =>  'پسرانه',
         3   =>  'دخترانه و پسرانه',
     ];
     public function incrementViewCount() {
@@ -66,6 +67,15 @@ class Product extends Model
     }
     public function incrementSoldNumberCount($number) {
         $this->sold_number += $number;
+        $this->marketable_number -= $number;
+        return $this->save();
+    }
+    public function incrementFrozenNumberCount($number) {
+        $this->frozen_number += $number;
+        return $this->save();
+    }
+    public function decreaseFrozenNumberCount($number) {
+        $this->frozen_number -= $number;
         return $this->save();
     }
 
@@ -127,5 +137,9 @@ class Product extends Model
     public function user()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function store(){
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

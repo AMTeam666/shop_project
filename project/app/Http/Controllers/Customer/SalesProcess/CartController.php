@@ -45,6 +45,9 @@ class CartController extends Controller
 
     public function addToCart(Product $product, Request $request)
     {
+        if($request->number > $product->marketable_number){
+            return redirect()->back()->with('error', 'تعداد مورد نظر شما در انبار موجود نمیباشد');
+        }
     
         if(Auth::check())
         {
@@ -54,7 +57,7 @@ class CartController extends Controller
                 'guarantee' => 'nullable|exists:guarantees,id',
                 'number' => 'numeric|min:1|max:5',
             ]);
-
+            $product->incrementFrozenNumberCount($request->number);
             $cartItems = CartItem::where('product_id', $product->id)->where('user_id', auth()->user()->id)->get();
 
             if(!isset($request->color))
@@ -109,6 +112,7 @@ class CartController extends Controller
     {
         if($cartItem->user_id === Auth::user()->id)
         {
+            $cartItem->product->decreaseFrozenNumberCount($cartItem->number);
             $cartItem->delete();
             return back();
         }

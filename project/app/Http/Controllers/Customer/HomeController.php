@@ -29,7 +29,7 @@ class HomeController extends Controller
         //products query
         $mostVisitedProducts = Product::latest()->take(10)->get();
         $OfferProducts = Product::latest()->take(10)->get();
-        Auth::loginUsingId(3);
+        Auth::loginUsingId(2);
         return view('customers.home', compact('slideShowImages', 'topBanners', 'middleBanners', 'bottomBanner', 'brands', 'mostVisitedProducts', 'OfferProducts', 'categories'));
     }
 
@@ -80,7 +80,7 @@ class HomeController extends Controller
             $products->whereIn('brand_id', $request->brands);
         });
         $products = $products->when($request->age_range, function () use ($request, $products) {
-            if($request->age_range == 5){
+            if($request->age_range == 6){
                 $products = $products->get();
             }
             $products->where('age_range', $request->age_range);

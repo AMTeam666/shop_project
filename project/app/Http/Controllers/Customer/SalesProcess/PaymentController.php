@@ -134,6 +134,7 @@ class PaymentController extends Controller
 
             ]);
             $cartItem->product->incrementSoldNumberCount($cartItem->number);
+            $cartItem->product->decreaseFrozenNumberCount($cartItem->number);
             $cartItem->delete();
         }
             

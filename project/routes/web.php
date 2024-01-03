@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\Market\BrandController;
 use App\Http\Controllers\Admin\Market\OrderController;
 use App\Http\Controllers\Admin\Market\StoreController;
 use App\Http\Controllers\Admin\Notify\EmailController;
+use App\Http\Controllers\Auth\Seller\SellerController;
 use App\Http\Controllers\Admin\Ticket\TicketController;
 use App\Http\Controllers\Admin\User\CustomerController;
 use App\Http\Controllers\Admin\user\SalesManController;
@@ -31,9 +32,11 @@ use App\Http\Controllers\Admin\Market\DiscountController;
 use App\Http\Controllers\Admin\Market\PropertyController;
 use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\User\PermissionController;
+use App\Http\Controllers\Admin\Content\TrainingController;
 use App\Http\Controllers\Admin\Market\GuaranteeController;
 use App\Http\Controllers\Admin\Notify\EmailFileController;
 use App\Http\Controllers\Admin\Ticket\TicketAdminController;
+use App\Http\Controllers\Customer\Content\CartoonController;
 use App\Http\Controllers\Customer\Profile\ProfileController;
 use App\Http\Controllers\admin\Market\ProductColorController;
 use App\Http\Controllers\Customer\Profile\FavoriteController;
@@ -41,12 +44,13 @@ use App\Http\Controllers\Admin\Market\PropertyValueController;
 use App\Http\Controllers\Customer\SalesProcess\CartController;
 use App\Http\Controllers\Admin\Ticket\TicketCategoryController;
 use App\Http\Controllers\Admin\Ticket\TicketPriorityController;
-use App\Http\Controllers\Auth\Customers\LoginRegisterComtroller;
 use App\Http\Controllers\Auth\Customers\LoginRegisterController;
 use App\Http\Controllers\Customer\SalesProcess\AddressController;
 use App\Http\Controllers\Customer\SalesProcess\ProfileCompletion;
 use App\Http\Controllers\Customer\SalesMan\RegisterFormController;
 use App\Http\Controllers\Customer\SalesMan\SalesManRegisterController;
+use App\Http\Controllers\Customer\Content\PostController as ContentPostController;
+use App\Http\Controllers\Admin\Content\CartoonController as AdminCartoonController;
 use App\Http\Controllers\Customer\Profile\OrderController as ProfileOrderController;
 use App\Http\Controllers\Admin\Content\CommentController as ContentCommentController;
 use App\Http\Controllers\Admin\Content\CategoryController as ContentCategoryController;
@@ -233,18 +237,18 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
 
     Route::prefix('content')->namespace('Content')->group(function () {
 
-        //category
-        Route::prefix('category')->group(function () {
-            Route::get('/', [ContentCategoryController::class, 'index'])->name('admin.content.category.index');
-            Route::get('/create', [ContentCategoryController::class, 'create'])->name('admin.content.category.create');
-            Route::post('/store', [ContentCategoryController::class, 'store'])->name('admin.content.category.store');
-            Route::get('/edit/{postCategory}', [ContentCategoryController::class, 'edit'])->name('admin.content.category.edit');
-            Route::patch('/update/{postCategory}', [ContentCategoryController::class, 'update'])
-                ->name('admin.content.category.update');
-            Route::delete('/destroy/{postCategory}', [ContentCategoryController::class, 'destroy'])->name('admin.content.category.destroy');
-            Route::get('/status/{postCategory}', [ContentCategoryController::class, 'status'])
-                ->name('admin.content.category.status');
-        });
+        // //category
+        // Route::prefix('category')->group(function () {
+        //     Route::get('/', [ContentCategoryController::class, 'index'])->name('admin.content.category.index');
+        //     Route::get('/create', [ContentCategoryController::class, 'create'])->name('admin.content.category.create');
+        //     Route::post('/store', [ContentCategoryController::class, 'store'])->name('admin.content.category.store');
+        //     Route::get('/edit/{postCategory}', [ContentCategoryController::class, 'edit'])->name('admin.content.category.edit');
+        //     Route::patch('/update/{postCategory}', [ContentCategoryController::class, 'update'])
+        //         ->name('admin.content.category.update');
+        //     Route::delete('/destroy/{postCategory}', [ContentCategoryController::class, 'destroy'])->name('admin.content.category.destroy');
+        //     Route::get('/status/{postCategory}', [ContentCategoryController::class, 'status'])
+        //         ->name('admin.content.category.status');
+        // });
 
         //comments
         Route::prefix('comment')->group(function () {
@@ -267,8 +271,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             Route::get('/edit/{faq}', [FAQController::class, 'edit'])->name('admin.content.faq.edit');
             Route::patch('/update/{faq}', [FAQController::class, 'update'])->name('admin.content.faq.update');
             Route::delete('/destroy/{faq}', [FAQController::class, 'destroy'])->name('admin.content.faq.destroy');
-            Route::get('/status/{faq}', [FAQController::class, 'status'])
-                ->name('admin.content.faq.status');
+            Route::get('/status/{faq}', [FAQController::class, 'status'])->name('admin.content.faq.status');
         });
 
         //menu
@@ -279,8 +282,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             Route::get('/edit/{menu}', [MenuController::class, 'edit'])->name('admin.content.menu.edit');
             Route::put('/update/{menu}', [MenuController::class, 'update'])->name('admin.content.menu.update');
             Route::delete('/destroy/{menu}', [MenuController::class, 'destroy'])->name('admin.content.menu.destroy');
-            Route::get('/status/{menu}', [MenuController::class, 'status'])
-                ->name('admin.content.menu.status');
+            Route::get('/status/{menu}', [MenuController::class, 'status'])->name('admin.content.menu.status');
         });
 
 
@@ -292,11 +294,10 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             Route::get('/edit/{page}', [PageController::class, 'edit'])->name('admin.content.page.edit');
             Route::patch('/update/{page}', [PageController::class, 'update'])->name('admin.content.page.update');
             Route::delete('/destroy/{page}', [PageController::class, 'destroy'])->name('admin.content.page.destroy');
-            Route::get('/status/{page}', [PageController::class, 'status'])
-                ->name('admin.content.page.status');
+            Route::get('/status/{page}', [PageController::class, 'status'])->name('admin.content.page.status');
         });
 
-        //post
+        //posts
         Route::prefix('post')->group(function () {
             Route::get('/', [PostController::class, 'index'])->name('admin.content.post.index');
             Route::get('/create', [PostController::class, 'create'])->name('admin.content.post.create');
@@ -304,10 +305,32 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             Route::get('/edit/{post}', [PostController::class, 'edit'])->name('admin.content.post.edit');
             Route::patch('/update/{post}', [PostController::class, 'update'])->name('admin.content.post.update');
             Route::delete('/destroy/{post}', [PostController::class, 'destroy'])->name('admin.content.post.destroy');
-            Route::get('/status/{post}', [PostController::class, 'status'])
-                ->name('admin.content.post.status');
+            Route::get('/status/{post}', [PostController::class, 'status'])->name('admin.content.post.status');
             Route::get('/commentable/{post}', [PostController::class, 'commentable'])->name('admin.content.post.commentable');
         });
+         //cartoons
+         Route::prefix('cartoon')->group(function () {
+            Route::get('/', [AdminCartoonController ::class, 'index'])->name('admin.content.cartoon.index');
+            Route::get('/create', [AdminCartoonController ::class, 'create'])->name('admin.content.cartoon.create');
+            Route::post('/store', [AdminCartoonController ::class, 'store'])->name('admin.content.cartoon.store');
+            Route::get('/edit/{post}', [AdminCartoonController ::class, 'edit'])->name('admin.content.cartoon.edit');
+            Route::patch('/update/{post}', [AdminCartoonController ::class, 'update'])->name('admin.content.cartoon.update');
+            Route::delete('/destroy/{post}', [AdminCartoonController ::class, 'destroy'])->name('admin.content.cartoon.destroy');
+            Route::get('/status/{post}', [AdminCartoonController ::class, 'status'])->name('admin.content.cartoon.status');
+            Route::get('/commentable/{post}', [AdminCartoonController ::class, 'commentable'])->name('admin.content.cartoon.commentable');
+        });
+         //learnings
+         Route::prefix('Trainings')->group(function () {
+            Route::get('/', [TrainingController::class, 'index'])->name('admin.content.Trainings.index');
+            Route::get('/create', [TrainingController::class, 'create'])->name('admin.content.Trainings.create');
+            Route::post('/store', [TrainingController::class, 'store'])->name('admin.content.Trainings.store');
+            Route::get('/edit/{post}', [TrainingController::class, 'edit'])->name('admin.content.Trainings.edit');
+            Route::patch('/update/{post}', [TrainingController::class, 'update'])->name('admin.content.Trainings.update');
+            Route::delete('/destroy/{post}', [TrainingController::class, 'destroy'])->name('admin.content.Trainings.destroy');
+            Route::get('/status/{post}', [TrainingController::class, 'status'])->name('admin.content.Trainings.status');
+            Route::get('/commentable/{post}', [TrainingController::class, 'commentable'])->name('admin.content.Trainings .commentable');
+        });
+
 
         //banner
         Route::prefix('banner')->group(function () {
@@ -363,6 +386,11 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             Route::delete('/destroy/{user}', [SalesManController::class, 'destroy'])->name('admin.user.sale.destroy');
             Route::get('/status/{user}', [SalesManController::class, 'status'])->name('admin.user.sale.status');
             Route::get('/activation/{user}', [SalesManController::class, 'activation'])->name('admin.user.sale.activation');
+            Route::get('/role/{user}', [SalesManController::class, 'role'])->name('admin.user.sale.role');
+            Route::post('/role/{user}/store', [SalesManController::class, 'roleStore'])->name('admin.user.sale.role.store');
+            Route::get('/add-salesman-role/{user}', [SalesManController::class, 'addSalesManRole'])->name('admin.user.sale.add-salesman-role');
+            Route::get('/disapproval/{user}', [SalesManController::class, 'disapproval'])->name('admin.user.sale.disapproval');
+
         });
 
         //role
@@ -485,14 +513,26 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     });
 });
 
-Route::namespace('Auth')->group(function () {
-    Route::get('login-register-form', [LoginRegisterController::class, 'loginRegisterForm'])->name('auth.customers.login-register-form');
-    Route::middleware('throttle:customers-login-register-limiter')->post('/login-register', [LoginRegisterController::class, 'loginRegister'])->name('auth.customers.login-register');
+Route::prefix('auth')->namespace('auth')->group(function(){
+
+    Route::get('/login-register-form', [LoginRegisterController::class, 'loginRegisterForm'])->name('auth.customer.register-form');
+    Route::post('/login-register', [LoginRegisterController::class, 'loginRegister'])->name('auth.customer.register');
+    Route::post('/login', [LoginRegisterController::class, 'loginRegister'])->name('auth.customers.login');
     Route::get('login-confirm/{token}', [LoginRegisterController::class, 'loginConfirmForm'])->name('auth.customers.login-confirm-form');
-    Route::middleware('throttle:customers-login-confirm-limiter')->post('/login-confirm/{token}', [LoginRegisterController::class, 'loginConfirm'])->name('auth.customers.login-confirm');
-    Route::middleware('throttle:customers-resend-otp-limiter')->get('/login-resend-otp/{token}', [LoginRegisterController::class, 'loginResendOtp'])->name('auth.customers.login-resend-otp');
+    Route::post('/login-confirm/{token}', [LoginRegisterController::class, 'loginConfirm'])->name('auth.customers.login-confirm');
+    Route::get('/login-resend-otp/{token}', [LoginRegisterController::class, 'loginResendOtp'])->name('auth.customers.login-resend-otp');
     Route::get('/logout', [LoginRegisterController::class, 'logout'])->name('customers.logout');
 });
+
+// Route::namespace('Auth')->group(function () {
+//     Route::get('login-register-form', [LoginRegisterController::class, 'loginRegisterForm'])->name('auth.customers.login-register-form');
+//     Route::post('/login-register', [LoginRegisterController::class, 'loginRegister'])->name('auth.customers.login-register');
+//     Route::post('/login', [LoginRegisterController::class, 'loginRegister'])->name('auth.customers.login');
+//     Route::get('login-confirm/{token}', [LoginRegisterController::class, 'loginConfirmForm'])->name('auth.customers.login-confirm-form');
+//     Route::post('/login-confirm/{token}', [LoginRegisterController::class, 'loginConfirm'])->name('auth.customers.login-confirm');
+//     Route::get('/login-resend-otp/{token}', [LoginRegisterController::class, 'loginResendOtp'])->name('auth.customers.login-resend-otp');
+//     Route::get('/logout', [LoginRegisterController::class, 'logout'])->name('customers.logout');
+// });
 
 
 Route::get('/', [HomeController::class, 'home'])->name('customers.home');
@@ -573,6 +613,21 @@ Route::namespace('Profile')->group(function () {
     Route::get('/my-tickets/create/', [CustomerTicketController::class, 'create'])->name('customer.profile.my-tickets.create');
     Route::post('/my-tickets/store', [CustomerTicketController::class, 'store'])->name('customer.profile.my-tickets.store');
 
+
+});
+
+Route::prefix('seller')->namespace('Seller')->group(function(){
+    Route::get('/seller-form', [SellerController::class, 'form'])->name('seller.form');
+    Route::post('/form-confirm', [SellerController::class, 'confirm'])->name('seller.confirm');
+});
+
+Route::namespace('CustomerContent')->group(function(){
+    //cartons
+    Route::get('/cartoon', [CartoonController::class, 'index'])->name('customer.content.cartoon.index');
+
+    //posts
+    Route::get('/posts', [ContentPostController::class, 'index'])->name('customer.content.posts.index');
+    Route::get('/posts/show/{post}', [ContentPostController::class, 'show'])->name('customer.content.posts.show');
 
 });
 

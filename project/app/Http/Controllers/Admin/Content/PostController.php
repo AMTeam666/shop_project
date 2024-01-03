@@ -30,8 +30,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $postCategories = PostCategory::all();
-        return view('admin.content.post.create', compact('postCategories'));
+        return view('admin.content.post.create');
     }
 
     /**
@@ -41,9 +40,7 @@ class PostController extends Controller
     {
         $inputs = $request->all();
 
-        //date fixed
-        $realTimestampStart = substr($request->published_at, 0, 10);
-        $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
+       
 
         if($request->hasFile('image'))
         {
@@ -74,12 +71,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        if(!Gate::allows('update-post', $post)){
-            abort(403);
-        }
-        $postCategories = PostCategory::all();
+     
 
-        return view('admin.content.post.edit', compact('post', 'postCategories'));
+        return view('admin.content.post.edit', compact('post'));
     }
 
 
@@ -90,10 +84,6 @@ class PostController extends Controller
     {
         
         $inputs = $request->all();
-        //date fixed
-        $realTimestampStart = substr($request->published_at, 0, 10);
-        $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
-
         if($request->hasFile('image'))
         {
             if (!empty($post->image))

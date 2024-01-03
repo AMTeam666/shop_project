@@ -47,19 +47,19 @@
                                 <a class="accordion_filter text-decoration-none text-dark" type="button">رنج سنی</a>
                                 <div class="panel_filter">
                                     <section class="sidebar-brand-wrapper">
-                                            <label class="form-check-label d-flex p-1"><input type="radio" id="" class="form-check-input" name="age_range" value="0" @if(request()->age_range == 0) checked @endif>نوزاد</label>
-                                            <label class="form-check-label d-flex p-1"><input type="radio" id="" class="form-check-input" name="age_range" value="1" @if(request()->age_range == 1) checked @endif>1 تا 3 سال</label>
-                                            <label class="form-check-label d-flex p-1"><input type="radio" id="" class="form-check-input" name="age_range" value="2" @if(request()->age_range == 2) checked @endif>3 تا 5 سال</label>
-                                            <label class="form-check-label d-flex p-1"><input type="radio" id="" class="form-check-input" name="age_range" value="3" @if(request()->age_range == 3) checked @endif>5 تا 8 سال</label>
-                                            <label class="form-check-label d-flex p-1"><input type="radio" id="" class="form-check-input" name="age_range" value="4" @if(request()->age_range == 4) checked @endif>8 تا 12 سال</label>
-                                            <label class="form-check-label d-flex p-1"><input type="radio" id="" class="form-check-input" name="age_range" value="5" @if(request()->age_range == 5) checked @endif>تمامی سنین</label>
+                                            <label class="form-check-label d-flex p-1"><input type="radio" id="" class="form-check-input" name="age_range" value="1" @if(request()->age_range == 1) checked @endif >نوزاد</label>
+                                            <label class="form-check-label d-flex p-1"><input type="radio" id="" class="form-check-input" name="age_range" value="2" @if(request()->age_range == 2) checked @endif>1 تا 3 سال</label>
+                                            <label class="form-check-label d-flex p-1"><input type="radio" id="" class="form-check-input" name="age_range" value="3" @if(request()->age_range == 3) checked @endif>3 تا 5 سال</label>
+                                            <label class="form-check-label d-flex p-1"><input type="radio" id="" class="form-check-input" name="age_range" value="4" @if(request()->age_range == 4) checked @endif>5 تا 8 سال</label>
+                                            <label class="form-check-label d-flex p-1"><input type="radio" id="" class="form-check-input" name="age_range" value="5" @if(request()->age_range == 5) checked @endif>8 تا 12 سال</label>
+                                            <label class="form-check-label d-flex p-1"><input type="radio" id="" class="form-check-input" name="age_range" value="6" @if(request()->age_range == 6) checked @endif>تمامی سنین</label>
                                     </section>
                                 </div>
                                 <a class="accordion_filter text-decoration-none text-dark" type="button"> جنسیت</a>
                                 <div class="panel_filter">
                                     <section class="sidebar-brand-wrapper">
-                                            <label class="form-check-label d-flex p-1"><input type="radio" id="" class="form-check-input" @if(request()->gender == 0) checked @endif name="gender" value="0">دخترانه</label>
-                                            <label class="form-check-label d-flex p-1"><input type="radio" id="" class="form-check-input" @if(request()->gender == 1) checked @endif name="gender" value="1">پسرانه</label>
+                                            <label class="form-check-label d-flex p-1"><input type="radio" id="" class="form-check-input" @if(request()->gender == 1) checked @endif name="gender" value="1">دخترانه</label>
+                                            <label class="form-check-label d-flex p-1"><input type="radio" id="" class="form-check-input" @if(request()->gender == 2) checked @endif name="gender" value="2">پسرانه</label>
                                             <label class="form-check-label d-flex p-1"><input type="radio" id="" class="form-check-input" @if(request()->gender == 3) checked @endif name="gender" value="3">جفتشون</label>
                                     </section>
                                 </div>
@@ -200,7 +200,11 @@
                                         </section>
                                     </section>
                                     @empty
-                                        
+                                        <section>
+                                            <section>
+                                                کالایی یافت نشد
+                                            </section>
+                                        </section>
                                     @endforelse
                             
         
@@ -255,7 +259,7 @@
                 <strong class="ml-auto">
                     خب کونی خان محترم .. الان میزنی علاقه مندی ها من اینو بزارمش تو کص بیبیت ؟؟
                     <br>
-                    <a href="{{ route('auth.customers.login-register-form') }}" class="text-dark">
+                    <a href="{{ route('auth.customer.register-form') }}" class="text-dark">
                         بزن رو این تا بدونم کدون کونی هستی
                     </a>
                 </strong>             

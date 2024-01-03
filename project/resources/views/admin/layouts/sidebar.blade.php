@@ -92,10 +92,10 @@
 
             @role('admin', 'super')
             <section class="sidebar-part-title">بخش محتوی</section>
-            <a href="{{ route('admin.content.category.index') }}" class="sidebar-link">
+            {{-- <a href="{{ route('admin.content.category.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>دسته بندی</span>
-            </a>
+            </a> --}}
           
             <a href="{{ route('admin.content.post.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>

@@ -50,26 +50,8 @@
                             </span>
                                 @enderror
                             </section>
+                   
 
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">انتخاب دسته</label>
-                                    <select name="category_id" id="" class="form-control form-control-sm">
-                                        <option value="">دسته را انتخاب کنید</option>
-                                        @foreach ($postCategories as $postCategory)
-                                            <option value="{{ $postCategory->id }}" @if(old('category_id', $post->category_id) == $postCategory->id) selected @endif>{{ $postCategory->name }}</option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                                @error('category_id')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
 
                             <section class="col-12 col-md-6">
                                 <div class="form-group">
@@ -142,21 +124,6 @@
 
 
 
-                            <section class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="">تاریخ انتشار</label>
-                                    <input type="text" name="published_at" id="published_at" class="form-control form-control-sm d-none">
-                                    <input type="text" id="published_at_view" class="form-control form-control-sm">
-                                </div>
-                                @error('published_at')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                                @enderror
-                            </section>
-
                             <section class="col-12  ">
                                 <div class="form-group">
                                     <label for="tags"> تک ها</label>
@@ -191,7 +158,7 @@
                             <section class="col-12">
                                 <div class="form-group">
                                     <label for="">متن پست</label>
-                                    <textarea name="body" id="body"  class="form-control form-control-sm" rows="6">{{ old('body',$post->body) }}</textarea>
+                                    <textarea name="body" id="body"  class="form-control form-control-sm" rows="6">{{  old('body',$post->body)  }}</textarea>
                                 </div>
                                 @error('body')
                                 <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
@@ -219,6 +186,8 @@
 
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-date.min.js') }}"></script>
     <script src="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.js') }}"></script>
+    <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
+
 
 
     <script>
@@ -230,6 +199,9 @@
         });
     </script>
 
+<script>
+    CKEDITOR.replace('body');
+</script>
     <script>
         $(document).ready(function () {
             var tags_input = $('#tags');

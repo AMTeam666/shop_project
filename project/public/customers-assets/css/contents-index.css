@@ -1,0 +1,164 @@
+.container-content{
+    background-color: #ffffff;
+
+}
+.container-main-content{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+
+}
+.container-main-content a{
+    display: block;
+    width: 100%;
+
+}
+.main-cartoons , .main-posts , .main-learning{
+
+    margin: auto;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    width: 400px;
+    min-height: 500px;
+    position: relative;
+    border-radius: 20px;
+}
+.main-cartoons img{
+    display: block;
+    width: 100%;
+    height: 500px;
+    padding: 0;
+    margin: 0;
+    border-radius: 20px;
+}
+.aside-cartoons{
+    position:absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    overflow: hidden;
+    width: 0;
+    height: 100%;
+    transition: .5s ease;
+    border-radius: 20px;
+    opacity: .9;
+}
+.aside-cartoons h1 {
+    color: black;
+    white-space: nowrap; 
+    position: absolute;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+.aside-cartoons p {
+    white-space: nowrap; 
+    position: absolute;
+    overflow: hidden;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+.main-cartoons:hover .aside-cartoons{
+    width: 100%;
+}
+
+
+
+.main-posts img{
+    display: block;
+    width: 100%;
+
+
+    height: 500px;
+    padding: 0;
+    margin: 0;
+    border-radius: 20px;
+}
+.aside-posts{
+    position:absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: #ffffff;
+    overflow: hidden;
+    width: 0;
+    height: 100%;
+    transition: .5s ease;
+    border-radius:  20px;
+    opacity: .9;
+}
+.main-posts:hover .aside-posts{
+    width: 100%;
+
+}
+.aside-posts h1 {
+    color: black;
+    white-space: nowrap; 
+    position: absolute;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+.aside-posts p {
+    white-space: nowrap; 
+    position: absolute;
+    overflow: hidden;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+
+
+
+
+.main-learning img{
+    display: block;
+    width: 100%;
+    height: 500px;
+    padding: 0;
+    margin: 0;
+    border-radius: 20px;
+}
+.aside-learning{
+    position:absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    overflow: hidden;
+    width: 0;
+    height: 100%;
+    transition: .5s ease;
+    border-radius:  20px;
+    opacity: .9;
+}
+.aside-learning h1 {
+    color: black;
+    white-space: nowrap; 
+    position: absolute;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+.aside-learning p {
+    white-space: nowrap; 
+    position: absolute;
+    overflow: hidden;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+.main-learning:hover .aside-learning{
+    width: 100%;
+}

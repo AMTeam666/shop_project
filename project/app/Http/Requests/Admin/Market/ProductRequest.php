@@ -33,8 +33,8 @@ class ProductRequest extends FormRequest
                 'category_id' => 'required|min:1|regex:/^[0-9]+$/u|exists:product_categories,id',
                 'brand_id' => 'required|min:1|regex:/^[0-9]+$/u|exists:brands,id',
                 'published_at' => 'required|numeric',
-                'age_range' => 'numeric|between:0,5',
-                'gender' => 'numeric|between:0,3',
+                'age_range' => 'numeric|between:1,6',
+                'gender' => 'numeric|between:1,3',
 
 
             ];
@@ -50,8 +50,8 @@ class ProductRequest extends FormRequest
                 'category_id' => 'required|min:1|regex:/^[0-9]+$/u|exists:product_categories,id',
                 'brand_id' => 'required|min:1|regex:/^[0-9]+$/u|exists:brands,id',
                 'published_at' => 'required|numeric',
-                'age_range' => 'numeric|between:0,5',
-                'gender' => 'numeric|between:0,3',
+                'age_range' => 'numeric|between:1,6',
+                'gender' => 'numeric|between:1,3',
             ];
         }
     }

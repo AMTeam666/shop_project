@@ -58,6 +58,7 @@ class LoginRegisterController extends Controller
         if(empty($user)){
             $newUser['password'] = '98525114';
             $newUser['activation'] = 1;
+            $newUser['seen'] = 1;
             $user = User::create($newUser);
         }
 
@@ -149,7 +150,7 @@ class LoginRegisterController extends Controller
 
         if(empty($otp))
         {
-            return redirect()->route('auth.customers.login-register-form', $token)->withErrors(['id' => 'ادرس وارد شده نامعتبر است']);
+            return redirect()->route('auth.customer.register-form', $token)->withErrors(['id' => 'ادرس وارد شده نامعتبر است']);
         }
  
  

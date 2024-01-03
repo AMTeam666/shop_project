@@ -18,7 +18,7 @@ class StoreController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('created_at', 'asc')->simplePaginate(15);
+        $products = Product::where('user_id', auth()->user()->id)->orderBy('created_at', 'asc')->simplePaginate(15);
         return view('admin.market.store.index', compact('products'));
     }
 
